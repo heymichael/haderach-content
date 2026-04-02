@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcade Management Platform — User Guide</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root {
+      --navy: #121227;
+      --navy-light: #1e1e3a;
+      --accent: #4361ee;
+      --accent-soft: rgba(67,97,238,0.08);
+      --accent-border: rgba(67,97,238,0.18);
+      --terracotta: #cc6e66;
+      --terracotta-soft: rgba(204,110,102,0.08);
+      --terracotta-border: rgba(204,110,102,0.18);
+      --green: #16a34a;
+      --green-soft: rgba(22,163,74,0.08);
+      --green-border: rgba(22,163,74,0.18);
+      --fg: #191919;
+      --fg-muted: #5c5c5c;
+      --fg-dim: #8a8a8a;
+      --border: #e2e2e2;
+      --surface: #f7f7f8;
+      --bg: #ffffff;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --font: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --mono: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 50px }
+
+    body {
+      font-family: var(--font);
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Header ──────────────────────────────────────────────── */
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 400;
+      background: var(--navy);
+      color: #fff;
+      padding: 10px 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .topbar h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    /* ─── Sidebar Nav ─────────────────────────────────────────── */
+
+    .sidebar {
+      position: fixed;
+      top: 38px;
+      left: 0;
+      width: 200px;
+      height: calc(100vh - 38px);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 40px 0;
+      overflow-y: auto;
+      z-index: 300;
+    }
+    .sidebar details {
+      margin: 0;
+    }
+    .sidebar summary {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--fg);
+      padding: 10px 20px;
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+      transition: background 0.15s;
+    }
+    .sidebar summary::-webkit-details-marker { display: none }
+    .sidebar summary::before {
+      content: '▸';
+      font-size: 1.5rem;
+      color: var(--fg-dim);
+      transition: transform 0.15s;
+    }
+    .sidebar details[open] > summary::before {
+      transform: rotate(90deg);
+    }
+    .sidebar summary:hover {
+      background: rgba(0,0,0,0.03);
+    }
+    .sidebar .nav-links a {
+      display: block;
+      padding: 5px 20px 5px 36px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--fg-muted);
+      text-decoration: none;
+      transition: color 0.15s, background 0.15s;
+    }
+    .sidebar .nav-links a:hover {
+      color: var(--fg);
+      background: rgba(0,0,0,0.03);
+    }
+
+    /* ─── Layout ──────────────────────────────────────────────── */
+
+    .page {
+      margin-left: 200px;
+      padding-top: 38px;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 4.5rem 0 1rem;
+    }
+
+    section + section {
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-border);
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+    .section-label.terracotta {
+      color: var(--terracotta);
+      background: var(--terracotta-soft);
+      border-color: var(--terracotta-border);
+    }
+    .section-label.green {
+      color: var(--green);
+      background: var(--green-soft);
+      border-color: var(--green-border);
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-intro {
+      font-size: 1.05rem;
+      color: var(--fg-muted);
+      margin-bottom: 2rem;
+      max-width: 640px;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    p { margin-bottom: 1rem }
+
+    ul, ol { margin-bottom: 1rem; padding-left: 1.5rem }
+    li { margin-bottom: 0.4rem }
+
+    /* ─── Workflow steps ──────────────────────────────────────── */
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin: 1rem 0 1.5rem;
+    }
+    .workflow-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      position: relative;
+    }
+    .workflow-step .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .workflow-step h4 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      white-space: nowrap;
+    }
+    .workflow-step p {
+      font-size: 0.72rem;
+      color: var(--fg-muted);
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    /* ─── Info boxes ──────────────────────────────────────────── */
+
+    .info-box {
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 1.5rem 0;
+      font-size: 0.92rem;
+    }
+    .info-box.warn {
+      background: var(--terracotta-soft);
+      border-color: var(--terracotta-border);
+    }
+    .info-box.success {
+      background: var(--green-soft);
+      border-color: var(--green-border);
+    }
+    .info-box strong { font-weight: 600 }
+    .info-box ul { margin-top: 0.5rem; padding-left: 1.25rem }
+    .info-box li { margin-bottom: 0.3rem }
+
+    /* ─── Try-it cards ────────────────────────────────────────── */
+
+    .try-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 1rem 0 1.5rem;
+    }
+    .try-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 0.75rem;
+      line-height: 1.4;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .try-card:hover {
+      border-color: var(--accent-border);
+      box-shadow: 0 2px 12px rgba(67,97,238,0.06);
+    }
+    .try-card .label {
+      display: block;
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--fg-dim);
+      margin-bottom: 3px;
+    }
+    .try-card code {
+      font-family: var(--mono);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+
+    /* ─── Scenario blocks ────────────────────────────────────── */
+
+    .scenario {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 1.5rem 0;
+    }
+    .scenario-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--fg-dim);
+      margin-bottom: 12px;
+    }
+    .scenario .exchange {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+      align-items: flex-start;
+    }
+    .scenario .exchange:last-child { margin-bottom: 0 }
+    .scenario .avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .scenario .avatar.user { background: var(--accent-soft); color: var(--accent) }
+    .scenario .avatar.agent { background: var(--navy); color: #fff }
+    .scenario .bubble {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      flex: 1;
+    }
+    .scenario .bubble em {
+      font-style: italic;
+      color: var(--fg-muted);
+    }
+    .scenario .arrow {
+      font-size: 0.7rem;
+      color: var(--fg-dim);
+      padding-left: 40px;
+      margin: -6px 0 8px;
+    }
+
+    /* ─── Feature list ───────────────────────────────────────── */
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+    .feature-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 0.93rem;
+    }
+    .feature-list li:last-child { border-bottom: none }
+    .feature-list .icon {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      background: var(--accent-soft);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    /* ─── Keyboard shortcuts table ───────────────────────────── */
+
+    .shortcut-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1.5rem 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .shortcut-table th {
+      background: var(--navy);
+      color: #fff;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+    }
+    .shortcut-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .shortcut-table tr:last-child td { border-bottom: none }
+    .shortcut-table tr:nth-child(even) td { background: var(--surface) }
+    .shortcut-table kbd {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.8em;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin: 0 2px;
+      box-shadow: 0 1px 0 var(--border);
+    }
+
+    /* ─── Perm matrix table ──────────────────────────────────── */
+
+    .perm-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1.5rem 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .perm-table th {
+      background: var(--navy);
+      color: #fff;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+    }
+    .perm-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .perm-table tr:last-child td { border-bottom: none }
+    .perm-table tr:nth-child(even) td { background: var(--surface) }
+    .perm-table .check { color: #16a34a; font-weight: 600 }
+    .perm-table .cross { color: #dc2626; }
+
+    /* ─── Group headers ──────────────────────────────────────── */
+
+    .group-header {
+      background: var(--navy);
+      color: #fff;
+      padding: 2.5rem 1.5rem 2rem;
+      margin: 0 -1.5rem;
+    }
+    .group-header h2 {
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+    .group-header p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.55);
+      margin: 0;
+      max-width: 580px;
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem 2.5rem;
+      color: var(--fg-dim);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+
+    @media (max-width: 640px) {
+      .sidebar { display: none }
+      .page { margin-left: 0 }
+      .topbar { padding-left: 1.5rem }
+      section { padding: 3rem 0 1rem }
+      .try-grid { grid-template-columns: 1fr }
+      .workflow { grid-template-columns: 1fr }
+      .shortcut-table { font-size: 0.8rem }
+      .shortcut-table th, .shortcut-table td { padding: 8px 10px }
+      .perm-table { font-size: 0.8rem }
+      .perm-table th, .perm-table td { padding: 8px 10px }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ SIDEBAR -->
+<nav class="sidebar">
+  <details open>
+    <summary onclick="document.getElementById('getting-started').scrollIntoView({behavior:'smooth'})">Getting Started</summary>
+    <div class="nav-links">
+      <a href="#getting-started">Signing In</a>
+      <a href="#navigation">Navigation</a>
+      <a href="#layout">Layout &amp; Display Modes</a>
+      <a href="#feedback-intro">Providing Feedback</a>
+    </div>
+  </details>
+
+  <details open>
+    <summary onclick="document.getElementById('using-the-agent').scrollIntoView({behavior:'smooth'})">Using the Agent</summary>
+    <div class="nav-links">
+      <a href="#using-the-agent">Conversations</a>
+      <a href="#asking-questions">Asking Questions</a>
+      <a href="#agent-editing">Making Changes</a>
+      <a href="#csv-workflows">CSV Workflows</a>
+      <a href="#feedback">Feedback</a>
+    </div>
+  </details>
+
+  <details open>
+    <summary onclick="document.getElementById('vendor-workspace').scrollIntoView({behavior:'smooth'})">Vendor Management</summary>
+    <div class="nav-links">
+      <a href="#vendor-workspace">Overview</a>
+      <a href="#vendor-database">Vendor Database</a>
+      <a href="#spend-dashboard">Spend Dashboard</a>
+      <a href="#spend-drilldowns">Spend Drilldowns</a>
+    </div>
+  </details>
+
+  <details open>
+    <summary onclick="document.getElementById('commodities-workspace').scrollIntoView({behavior:'smooth'})">Commodities</summary>
+    <div class="nav-links">
+      <a href="#commodities-workspace">Overview</a>
+    </div>
+  </details>
+
+  <details open>
+    <summary onclick="document.getElementById('settings').scrollIntoView({behavior:'smooth'})">Settings &amp; Admin</summary>
+    <div class="nav-links">
+      <a href="#settings">Settings Hub</a>
+      <a href="#system-admin">System Admin</a>
+      <a href="#vendor-admin">Vendor Admin</a>
+    </div>
+  </details>
+
+  <details open>
+    <summary onclick="document.getElementById('access-controls').scrollIntoView({behavior:'smooth'})">Access &amp; Permissions</summary>
+    <div class="nav-links">
+      <a href="#access-controls">How Access Works</a>
+      <a href="#roles">Roles</a>
+    </div>
+  </details>
+
+  <details open>
+    <summary onclick="document.getElementById('troubleshooting').scrollIntoView({behavior:'smooth'})">Troubleshooting</summary>
+    <div class="nav-links">
+      <a href="#troubleshooting">Common Issues</a>
+      <a href="#tips">Tips</a>
+    </div>
+  </details>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════ TOPBAR -->
+<div class="page">
+<header class="topbar">
+  <h1>Arcade Management Platform &mdash; User Guide</h1>
+</header>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════ GETTING STARTED -->
+<section id="getting-started" style="padding-top:3rem">
+  <h2>Signing In</h2>
+  <p class="section-intro">
+    Arcade Management Platform uses Google sign-in. Your session is shared across all applications in the platform, so you only need to sign in once.
+  </p>
+
+  <div class="workflow">
+    <div class="workflow-step">
+      <div class="num">1</div>
+      <h4>Open the platform</h4>
+      <p>Navigate to the platform URL. You'll see the home screen with a sign-in prompt.</p>
+    </div>
+    <div class="workflow-step">
+      <div class="num">2</div>
+      <h4>Sign in with Google</h4>
+      <p>Click "Sign in" and authenticate with your Google account.</p>
+    </div>
+    <div class="workflow-step">
+      <div class="num">3</div>
+      <h4>You're in</h4>
+      <p>Once signed in, you'll be redirected to your default application.</p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>Your session persists across apps.</strong> Signing in to one application (Vendors, Commodities, or Settings) signs you into all of them. You won't be asked to re-authenticate when switching between apps.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ NAVIGATION -->
+<section id="navigation">
+  <h2>Navigation</h2>
+  <p class="section-intro">
+    The platform is organized around domains. Each domain is a self-contained workspace with its own AI agent, dashboards, and data views.
+  </p>
+
+  <h3>The left rail</h3>
+  <p>The left rail lists your available domains. Selecting a domain loads its workspace&mdash;agent, views, and tools specific to that domain. The domains you see depend on your assigned roles:</p>
+
+  <table class="perm-table">
+    <thead>
+      <tr>
+        <th>Application</th>
+        <th>What it is</th>
+        <th>URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Vendors</strong></td>
+        <td>Vendor directory, spend analytics, and AI agent for vendor management</td>
+        <td><code>/vendors/</code></td>
+      </tr>
+      <tr>
+        <td><strong>Commodities</strong></td>
+        <td>Commodity tracking, pricing, and market analysis</td>
+        <td><code>/stocks/</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>The account menu</h3>
+  <p>Your avatar in the bottom-left corner of the rail opens the account menu with access to <strong>Settings</strong> and <strong>Log out</strong>. Settings takes you to the admin hub where you can access system and vendor administration (if your role allows it).</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ LAYOUT -->
+<section id="layout">
+  <h2>Layout &amp; Display Modes</h2>
+  <p class="section-intro">
+    Inside each domain, the interface is built around an app rail, a toolbar, and a main content area. The toolbar controls which views are visible.
+  </p>
+
+  <h3>The app rail</h3>
+  <p>The left rail lists the available domains. Clicking a domain loads its workspace&mdash;the agent, views, and tools specific to that domain.</p>
+
+  <h3>The toolbar</h3>
+  <p>The top toolbar lets you choose which panes are visible. You can show the agent, a view, or both side-by-side. There are four display modes:</p>
+
+  <div class="workflow">
+    <div class="workflow-step">
+      <div class="num">1</div>
+      <h4>Full-screen agent</h4>
+      <p>Select Chat, deselect everything else. The agent fills the entire content area.</p>
+    </div>
+    <div class="workflow-step">
+      <div class="num">2</div>
+      <h4>Full-screen view</h4>
+      <p>Select a view, deselect Chat. The dashboard or database fills the screen.</p>
+    </div>
+    <div class="workflow-step">
+      <div class="num">3</div>
+      <h4>Agent + view</h4>
+      <p>Select Chat plus a view. Agent on the right, view on the left, side-by-side.</p>
+    </div>
+    <div class="workflow-step">
+      <div class="num">4</div>
+      <h4>Switch the view</h4>
+      <p>Select a different view while Chat stays open. The view swaps, the conversation persists.</p>
+    </div>
+  </div>
+
+  <div class="info-box success">
+    <strong>Recommended workflow:</strong> Start with the agent in full-screen to ask questions and explore your data. When you need a visual overview, switch to agent + dashboard side-by-side. Use the database view when you need to browse, search, or edit records directly.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ FEEDBACK INTRO -->
+<section id="feedback-intro">
+  <h2>Providing Feedback</h2>
+  <p class="section-intro">
+    Your feedback directly shapes how the platform improves. There are two ways to provide it.
+  </p>
+
+  <h3>Agent feedback</h3>
+  <p>Every agent response has <strong>thumbs up</strong> and <strong>thumbs down</strong> buttons. This feedback is reviewed daily and is the most impactful way to improve the agent's accuracy. When something is wrong&mdash;a bad answer, a confusing response, a missed intent&mdash;a thumbs-down (with an optional comment) goes straight into the review queue. Even a thumbs-up without a comment is valuable because it reinforces good behavior.</p>
+
+  <div class="info-box warn">
+    <strong>Agent feedback is reviewed daily.</strong> Every flagged response is triaged, and patterns in feedback drive prompt tuning, tool improvements, and bug fixes. This is the single most important thing you can do to make the agent better.
+  </div>
+
+  <h3>General feedback</h3>
+  <p>For feedback about the platform itself&mdash;UI issues, feature requests, workflow suggestions&mdash;reach out to your admin. This covers anything outside of individual agent responses: navigation, dashboard layout, data display, and general usability.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ AGENT GROUP -->
+<div class="group-header" id="using-the-agent">
+  <h2>Using the Agent</h2>
+  <p>The AI agent is the primary interface for interacting with your data. Every domain has its own agent that understands that domain's data and tools.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ CONVERSATIONS -->
+<section id="conversations">
+  <h2>Starting a Conversation</h2>
+  <p class="section-intro">
+    The agent works like a chat interface. Type a question or instruction in the message box and hit Enter. The agent understands natural language&mdash;you don't need special commands or syntax.
+  </p>
+
+  <h3>What the agent can do</h3>
+  <ul class="feature-list">
+    <li>
+      <div class="icon">?</div>
+      <div><strong>Answer questions</strong> &mdash; Ask about your data and get instant answers with real numbers from the database.</div>
+    </li>
+    <li>
+      <div class="icon">&#9776;</div>
+      <div><strong>Search and list</strong> &mdash; Find records by name, filter by category, or list items matching criteria.</div>
+    </li>
+    <li>
+      <div class="icon">$</div>
+      <div><strong>Analyze spend</strong> &mdash; Get totals, breakdowns, rankings, and trends from your spend data.</div>
+    </li>
+    <li>
+      <div class="icon">&#9998;</div>
+      <div><strong>Edit records</strong> &mdash; Update fields through conversation with a confirmation step before any change is saved.</div>
+    </li>
+    <li>
+      <div class="icon">&#8595;</div>
+      <div><strong>Export data</strong> &mdash; Download CSVs of your data for offline analysis or bulk editing.</div>
+    </li>
+  </ul>
+
+  <h3>Conversation context</h3>
+  <p>The agent remembers the context of your conversation. You can ask follow-up questions without repeating yourself:</p>
+
+  <div class="scenario">
+    <div class="scenario-label">Example &mdash; Follow-up questions</div>
+    <div class="exchange">
+      <div class="avatar user">You</div>
+      <div class="bubble">"How much did we spend on AWS last quarter?"</div>
+    </div>
+    <div class="exchange">
+      <div class="avatar agent">H</div>
+      <div class="bubble">Your total AWS spend in Q1 2026 was <strong>$81,550.00</strong>.</div>
+    </div>
+    <div class="exchange">
+      <div class="avatar user">You</div>
+      <div class="bubble">"Break that down by service"</div>
+    </div>
+    <div class="exchange">
+      <div class="avatar agent">H</div>
+      <div class="bubble">
+        AWS Q1 2026 by service:<br>
+        &bull; EC2 &mdash; $45,200<br>
+        &bull; RDS &mdash; $22,100<br>
+        &bull; S3 &mdash; $8,750<br>
+        &bull; Lambda &mdash; $3,400<br>
+        &bull; CloudFront &mdash; $2,100
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ ASKING QUESTIONS -->
+<section id="asking-questions">
+  <h2>Asking Questions</h2>
+  <p class="section-intro">
+    You can ask the agent anything about your domain's data using natural language. Here are the most common types of questions and how to phrase them.
+  </p>
+
+  <h3>Spend questions</h3>
+  <p>Ask about totals, breakdowns, rankings, and trends. Combine time periods, departments, payment methods, and other filters naturally.</p>
+
+  <div class="try-grid">
+    <div class="try-card"><span class="label">Totals</span>"Total spend <code>this year</code>"</div>
+    <div class="try-card"><span class="label">By vendor</span>"Top 10 vendors by <code>spend</code>"</div>
+    <div class="try-card"><span class="label">By dimension</span>"Spend by <code>department</code>"</div>
+    <div class="try-card"><span class="label">Combined</span>"<code>ACH</code> spend in <code>Q1</code>"</div>
+  </div>
+
+  <h3>Search and lookup</h3>
+  <p>Find records by name, even with partial names or misspellings. The agent uses fuzzy matching and will ask you to clarify if there are multiple matches.</p>
+
+  <div class="try-grid">
+    <div class="try-card"><span class="label">Lookup</span>"Look up <code>Datadog</code>"</div>
+    <div class="try-card"><span class="label">List</span>"List all <code>ACH</code> vendors"</div>
+    <div class="try-card"><span class="label">Count</span>"How many <code>1099</code> vendors?"</div>
+    <div class="try-card"><span class="label">Filter</span>"Vendors in <code>Engineering</code>"</div>
+  </div>
+
+  <h3>Time periods</h3>
+  <p>Speak naturally about dates and the agent will figure it out:</p>
+
+  <div class="try-grid">
+    <div class="try-card"><span class="label">Relative</span>"<code>Last quarter</code>"</div>
+    <div class="try-card"><span class="label">Named</span>"<code>Q1 2025</code>"</div>
+    <div class="try-card"><span class="label">Range</span>"<code>Last 6 months</code>"</div>
+    <div class="try-card"><span class="label">Specific</span>"<code>January 2026</code>"</div>
+    <div class="try-card"><span class="label">Cumulative</span>"<code>Year to date</code>"</div>
+    <div class="try-card"><span class="label">Half-year</span>"<code>H1 2025</code>"</div>
+  </div>
+
+  <h3>Large result sets</h3>
+  <p>When a query returns more than 10 results, the agent will summarize the data in chat and offer a downloadable CSV with the full list. A download button appears inline so you can export the complete results to a spreadsheet.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ AGENT EDITING -->
+<section id="agent-editing">
+  <h2>Making Changes Through the Agent</h2>
+  <p class="section-intro">
+    You can create and update records through conversation. Every change goes through a confirmation step&mdash;the agent never writes data without your approval.
+  </p>
+
+  <h3>Editing a record</h3>
+  <div class="workflow">
+    <div class="workflow-step">
+      <div class="num">1</div>
+      <h4>Ask for the change</h4>
+      <p>Describe what you want to update in plain language.</p>
+    </div>
+    <div class="workflow-step">
+      <div class="num">2</div>
+      <h4>Review the diff</h4>
+      <p>A confirmation modal shows current vs. new values for every field being changed.</p>
+    </div>
+    <div class="workflow-step">
+      <div class="num">3</div>
+      <h4>Confirm or cancel</h4>
+      <p>Click Confirm to save, or Cancel to discard. Nothing is saved until you confirm.</p>
+    </div>
+  </div>
+
+  <div class="try-grid">
+    <div class="try-card"><span class="label">Update field</span>"Move Datadog to <code>Engineering</code>"</div>
+    <div class="try-card"><span class="label">Set owner</span>"Set AWS owner to <code>Sarah</code>"</div>
+    <div class="try-card"><span class="label">Change billing</span>"Slack billing to <code>annual</code>"</div>
+    <div class="try-card"><span class="label">Open form</span>"Edit <code>Notion</code>"</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-label">Example &mdash; Edit with confirmation</div>
+    <div class="exchange">
+      <div class="avatar user">You</div>
+      <div class="bubble">"Change Datadog's department to Platform Engineering"</div>
+    </div>
+    <div class="exchange">
+      <div class="avatar agent">H</div>
+      <div class="bubble"><em>A confirmation modal appears:</em><br>
+        <strong>Datadog, Inc.</strong><br>
+        Department: Engineering &rarr; Platform Engineering<br><br>
+        <em>[Confirm] [Cancel]</em></div>
+    </div>
+  </div>
+
+  <h3>Adding a new record</h3>
+  <p>Tell the agent to add a record with whatever details you have. It will fill in what it can and ask for anything required.</p>
+
+  <div class="try-grid">
+    <div class="try-card"><span class="label">Basic</span>"Add a vendor called <code>Acme</code>"</div>
+    <div class="try-card"><span class="label">With details</span>"Add <code>Linear</code>, monthly ACH"</div>
+  </div>
+
+  <h3>Opening the full edit form</h3>
+  <p>If you say "edit" followed by a name, the full edit form opens with all fields pre-populated. This is useful when you need to update multiple fields at once or edit fields not available through the chat shortcut.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ CSV WORKFLOWS -->
+<section id="csv-workflows">
+  <h2>CSV Workflows</h2>
+  <p class="section-intro">
+    For bulk operations, the agent can generate pre-filled CSVs that you edit in a spreadsheet and upload back for a batch update with a full diff review.
+  </p>
+
+  <h3>Downloading a CSV</h3>
+  <p>Ask the agent for a CSV export. You can filter by department, owner, or any other criteria. A download button appears in the chat.</p>
+
+  <div class="try-grid">
+    <div class="try-card"><span class="label">By department</span>"CSV of <code>Engineering</code> vendors"</div>
+    <div class="try-card"><span class="label">By owner</span>"CSV of vendors owned by <code>Sarah</code>"</div>
+    <div class="try-card"><span class="label">All</span>"Export all vendors for editing"</div>
+    <div class="try-card"><span class="label">Bulk intent</span>"Bulk update <code>Marketing</code> vendors"</div>
+  </div>
+
+  <h3>Uploading an edited CSV</h3>
+  <div class="workflow">
+    <div class="workflow-step">
+      <div class="num">1</div>
+      <h4>Download the CSV</h4>
+      <p>Click the download button the agent provides.</p>
+    </div>
+    <div class="workflow-step">
+      <div class="num">2</div>
+      <h4>Edit in a spreadsheet</h4>
+      <p>Open in Excel, Google Sheets, or any CSV editor. Change the fields you need.</p>
+    </div>
+    <div class="workflow-step">
+      <div class="num">3</div>
+      <h4>Upload back</h4>
+      <p>Use the paperclip icon in the chat to attach your edited CSV.</p>
+    </div>
+    <div class="workflow-step">
+      <div class="num">4</div>
+      <h4>Review the diff</h4>
+      <p>A batch confirmation shows every change per record. Confirm all or cancel.</p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>Validation is automatic.</strong> When you upload a CSV, the system validates IDs, field values, enums, and dates. Invalid rows are flagged with specific error messages before you can confirm, so nothing invalid gets saved.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ FEEDBACK -->
+<section id="feedback">
+  <h2>Providing Feedback</h2>
+  <p class="section-intro">
+    Every agent response has thumbs up and thumbs down buttons. Your feedback helps us identify what the agent does well and where it needs improvement.
+  </p>
+
+  <div class="workflow">
+    <div class="workflow-step">
+      <div class="num">&uarr;</div>
+      <h4>Thumbs up</h4>
+      <p>The response was accurate and helpful.</p>
+    </div>
+    <div class="workflow-step">
+      <div class="num">&darr;</div>
+      <h4>Thumbs down</h4>
+      <p>Something was wrong or unhelpful. You can add an optional comment explaining what went wrong.</p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>Even a simple thumbs-down is valuable.</strong> We review flagged responses regularly to tune behavior, fix edge cases, and improve accuracy.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ VENDOR GROUP -->
+<div class="group-header" id="vendor-workspace">
+  <h2>Vendor Management</h2>
+  <p>A complete vendor management workspace with spend analytics, a vendor database, and an AI agent&mdash;all in one place.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ VENDOR DATABASE -->
+<section id="vendor-database">
+  <h2>The Vendor Database</h2>
+  <p class="section-intro">
+    A searchable, sortable table of all your vendors. Browse vendors, view full details, and make inline edits without leaving the page.
+  </p>
+
+  <h3>Browsing and searching</h3>
+  <p>The database view shows a table of vendor records with key fields visible at a glance. Use the search bar at the top to filter vendors by name. Column headers are sortable&mdash;click to sort ascending, click again for descending.</p>
+
+  <h3>Vendor detail panel</h3>
+  <p>Click any row to open the detail flyout on the right. The panel shows all fields for that vendor&mdash;profile information, metadata, owner, department, payment details, and related data&mdash;in one place. You can edit fields directly in the detail panel.</p>
+
+  <h3>Editing in the database view</h3>
+  <p>The database view supports direct editing. Click on a field in the detail panel to modify it. Changes are saved when you confirm. This is the same data the agent operates on, so changes made here are immediately reflected in agent conversations and vice versa.</p>
+
+  <div class="info-box">
+    <strong>Agent and database are in sync.</strong> If you edit a vendor through the agent, the database view updates. If you edit in the database view, the agent sees the new data. There's one source of truth.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ SPEND DASHBOARD -->
+<section id="spend-dashboard">
+  <h2>The Spend Dashboard</h2>
+  <p class="section-intro">
+    Visual spend analytics with charts and summary metrics. Use the dashboard for at-a-glance insights and the agent for deeper analysis.
+  </p>
+
+  <h3>Dashboard views</h3>
+  <p>The spend dashboard provides charts and summary metrics for your vendor spend. Filters let you narrow by department, payment method, time period, and other dimensions. The dashboard operates independently of the agent&mdash;it's a traditional, visual interface for quick overviews.</p>
+
+  <h3>When to use the dashboard vs. the agent</h3>
+  <table class="perm-table">
+    <thead>
+      <tr>
+        <th>Use the dashboard when&hellip;</th>
+        <th>Use the agent when&hellip;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>You want a visual overview of spend trends</td>
+        <td>You need a specific number or answer to a question</td>
+      </tr>
+      <tr>
+        <td>You're scanning for anomalies or outliers</td>
+        <td>You want to drill into a specific vendor or service</td>
+      </tr>
+      <tr>
+        <td>You need to present a chart to someone</td>
+        <td>You want to compare spend across custom dimensions</td>
+      </tr>
+      <tr>
+        <td>You're doing exploratory analysis</td>
+        <td>You want to export filtered data as CSV</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="info-box success">
+    <strong>Try them side-by-side.</strong> Set the toolbar to show the dashboard plus the agent. Explore visually with the dashboard on the left while asking the agent for specifics on the right.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ SPEND DRILLDOWNS -->
+<section id="spend-drilldowns">
+  <h2>Spend Drilldowns</h2>
+  <p class="section-intro">
+    Go beyond totals and break down a specific vendor's spend by service, subcategory, or project to see exactly where money is going.
+  </p>
+
+  <h3>AWS Cost Explorer</h3>
+  <p>For vendors synced from AWS, the agent can drill into spend by AWS service, subcategory (SKU/usage type), or project. This uses your aggregated cost data&mdash;no need to log into the AWS console.</p>
+
+  <div class="try-grid">
+    <div class="try-card"><span class="label">By service</span>"<code>AWS</code> spend by service"</div>
+    <div class="try-card"><span class="label">Discovery</span>"What AWS services do we use?"</div>
+    <div class="try-card"><span class="label">Drill in</span>"<code>EC2</code> spend last quarter"</div>
+    <div class="try-card"><span class="label">By project</span>"AWS spend by <code>project</code>"</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-label">Example &mdash; Progressive drilldown</div>
+    <div class="exchange">
+      <div class="avatar user">You</div>
+      <div class="bubble">"AWS spend by service this quarter"</div>
+    </div>
+    <div class="exchange">
+      <div class="avatar agent">H</div>
+      <div class="bubble">
+        AWS Q1 2026 by service:<br>
+        &bull; EC2 &mdash; $45,200<br>
+        &bull; RDS &mdash; $22,100<br>
+        &bull; S3 &mdash; $8,750<br>
+        &bull; Lambda &mdash; $3,400
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="avatar user">You</div>
+      <div class="bubble">"Drill into EC2"</div>
+    </div>
+    <div class="exchange">
+      <div class="avatar agent">H</div>
+      <div class="bubble">
+        EC2 Q1 2026 by subcategory:<br>
+        &bull; On-Demand Instances &mdash; $32,100<br>
+        &bull; NAT Gateway &mdash; $6,800<br>
+        &bull; EBS Volumes &mdash; $4,200<br>
+        &bull; Data Transfer &mdash; $2,100
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ COMMODITIES GROUP -->
+<div class="group-header" id="commodities-workspace">
+  <h2>Commodities</h2>
+  <p>Track and analyze commodity positions, pricing, and market exposure across your portfolio.</p>
+</div>
+
+<section id="commodities-overview">
+  <h2>Commodities Workspace</h2>
+  <p class="section-intro">
+    The Commodities domain is available in the left rail. This workspace is under active development&mdash;features are being added and refined.
+  </p>
+
+  <p>Commodities provides a data view for commodity tracking and market analysis. More details will be added to this guide as the workspace matures.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ SETTINGS GROUP -->
+<div class="group-header" id="settings">
+  <h2>Settings &amp; Administration</h2>
+  <p>Manage users, roles, and application access controls from the Settings hub.</p>
+</div>
+
+<section id="settings-hub">
+  <h2>The Settings Hub</h2>
+  <p class="section-intro">
+    The Settings hub is accessible from the account menu (bottom-left avatar &rarr; Settings). It lists the admin areas you have access to, based on your role.
+  </p>
+
+  <p>Every signed-in user can access the Settings hub, but the admin areas visible inside it depend on your role assignments. If you don't have any admin roles, the hub will be empty.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ SYSTEM ADMIN -->
+<section id="system-admin">
+  <h2>System Administration</h2>
+  <p class="section-intro">
+    Manage users, roles, and application permissions. Available to users with the <strong>admin</strong> role.
+  </p>
+
+  <h3>Users</h3>
+  <p>View and manage all users in the system. Add new users, assign roles, and configure vendor access controls (departments, allowed vendors, denied vendors). The Users page is the default view when entering System Administration.</p>
+
+  <h3>Roles</h3>
+  <p>View the available roles and their descriptions. Roles determine which applications a user can access and what level of data visibility they have.</p>
+
+  <h3>Apps</h3>
+  <p>View the applications registered in the platform and which roles grant access to each one.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ VENDOR ADMIN -->
+<section id="vendor-admin">
+  <h2>Vendor Administration</h2>
+  <p class="section-intro">
+    Finance-focused vendor access and spend permissions management. Available to users with the <strong>finance_admin</strong> role.
+  </p>
+
+  <p>Vendor Administration provides controls for managing which departments and vendors each user can see spend data for. This is where finance admins configure the access controls that the agent enforces on every request.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ ACCESS GROUP -->
+<div class="group-header" id="access-controls">
+  <h2>Access &amp; Permissions</h2>
+  <p>How the platform determines what data you can see and what actions you can take.</p>
+</div>
+
+<section id="how-access-works">
+  <h2>How Access Works</h2>
+  <p class="section-intro">
+    Every request is authenticated with your identity. Access controls are applied server-side before any results are returned, so the AI agent only ever sees data you are authorized to access.
+  </p>
+
+  <h3>Vendor data access</h3>
+  <p>All users can view vendor profiles (names, departments, metadata). Spend data visibility is determined by your access configuration:</p>
+
+  <table class="perm-table">
+    <thead>
+      <tr>
+        <th>Access Control</th>
+        <th>What it does</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Allowed Departments</strong></td>
+        <td>Grants access to spend for all vendors in those departments</td>
+        <td>Allowed: Engineering, Product &rarr; see spend for all vendors in those departments</td>
+      </tr>
+      <tr>
+        <td><strong>Allowed Vendors</strong></td>
+        <td>Adds individual vendors to your access set, regardless of department</td>
+        <td>You have Engineering access but can also see a specific Marketing vendor</td>
+      </tr>
+      <tr>
+        <td><strong>Denied Vendors</strong></td>
+        <td>Removes specific vendors from your access set (overrides the above)</td>
+        <td>You have Engineering access but a sensitive vendor is excluded</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="info-box">
+    <strong>The formula:</strong> Your effective access = (Vendors in Allowed Departments &cup; Allowed Vendor IDs) &minus; Denied Vendor IDs. This is computed server-side on every request. The AI model only sees pre-filtered, aggregated results.
+  </div>
+
+  <h3>Hidden vendors</h3>
+  <p>Admins can mark vendors as <strong>hidden from agent</strong>. These are excluded from all agent search, list, and analytics results for every user, regardless of role. This is useful for internal or test vendors that shouldn't appear in chat.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ ROLES -->
+<section id="roles">
+  <h2>Roles</h2>
+  <p class="section-intro">
+    Roles determine which applications you can access and what level of data visibility you have.
+  </p>
+
+  <table class="perm-table">
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>What it grants</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>user</strong></td>
+        <td>Base access. Can view vendor profiles, query scoped spend data, search, and edit vendors within allowed set.</td>
+      </tr>
+      <tr>
+        <td><strong>finance_admin</strong></td>
+        <td>Full spend visibility across all vendors. Access to Vendor Administration. No spend filtering is applied.</td>
+      </tr>
+      <tr>
+        <td><strong>admin</strong></td>
+        <td>Access to System Administration (Users, Roles, Apps). Can manage users and role assignments.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>What each role can do in Vendor Management</h3>
+  <table class="perm-table">
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>Finance Admin</th>
+        <th>Department User</th>
+        <th>No Access Config</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>View vendor profiles</td>
+        <td class="check">&#10003; All</td>
+        <td class="check">&#10003; All</td>
+        <td class="check">&#10003; All</td>
+      </tr>
+      <tr>
+        <td>Query spend totals</td>
+        <td class="check">&#10003; All vendors</td>
+        <td class="check">&#10003; Scoped</td>
+        <td class="cross">&#10005; No spend</td>
+      </tr>
+      <tr>
+        <td>Spend breakdowns</td>
+        <td class="check">&#10003; All vendors</td>
+        <td class="check">&#10003; Scoped</td>
+        <td class="cross">&#10005; No spend</td>
+      </tr>
+      <tr>
+        <td>Top vendors ranking</td>
+        <td class="check">&#10003; Full ranking</td>
+        <td class="check">&#10003; Your vendors only</td>
+        <td class="cross">&#10005; No spend</td>
+      </tr>
+      <tr>
+        <td>Spend detail drilldowns</td>
+        <td class="check">&#10003; Any vendor</td>
+        <td class="check">&#10003; Allowed only</td>
+        <td class="cross">&#10005; Not authorized</td>
+      </tr>
+      <tr>
+        <td>Add vendors</td>
+        <td class="check">&#10003;</td>
+        <td class="check">&#10003;</td>
+        <td class="check">&#10003;</td>
+      </tr>
+      <tr>
+        <td>Edit vendors</td>
+        <td class="check">&#10003; Any vendor</td>
+        <td class="check">&#10003; Scoped</td>
+        <td class="cross">&#10005; Not authorized</td>
+      </tr>
+      <tr>
+        <td>Bulk CSV edits</td>
+        <td class="check">&#10003; Any vendor</td>
+        <td class="check">&#10003; Scoped</td>
+        <td class="cross">&#10005; Not authorized</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ TROUBLESHOOTING GROUP -->
+<div class="group-header" id="troubleshooting">
+  <h2>Troubleshooting &amp; Tips</h2>
+  <p>Solutions to common issues and tips for getting the most out of the platform.</p>
+</div>
+
+<section id="common-issues">
+  <h2>Common Issues</h2>
+  <p class="section-intro">
+    Quick solutions for the most frequently encountered situations.
+  </p>
+
+  <h3>"Not authorized" responses</h3>
+  <p>If the agent says you're not authorized to view a vendor's spend or edit a vendor, it means that vendor is outside your allowed set. Your access is determined by your department assignments and vendor allow/deny lists. Contact your admin to request access to additional departments or vendors.</p>
+
+  <h3>"No spend data" for a vendor</h3>
+  <p>This can happen for two reasons: the vendor genuinely has no spend recorded for the requested period, or you don't have access to that vendor's spend data. If you believe you should have access, check with your admin.</p>
+
+  <h3>The agent seems confused or gives a wrong answer</h3>
+  <p>Try rephrasing your question more specifically. If the agent is still off, use the thumbs-down button and optionally leave a comment. You can also start a new conversation to reset the context if the current thread has become confusing.</p>
+
+  <h3>CSV upload rejected</h3>
+  <p>The upload validator checks every row before allowing a confirm. Common issues:</p>
+  <ul>
+    <li><strong>Missing or invalid ID</strong> &mdash; Every row must have a valid vendor ID from the original export.</li>
+    <li><strong>Invalid enum value</strong> &mdash; Fields like department or payment method must match existing values.</li>
+    <li><strong>Unauthorized vendor</strong> &mdash; You can only edit vendors in your allowed set.</li>
+  </ul>
+  <p>Fix the flagged rows in your spreadsheet and re-upload.</p>
+
+  <h3>Session expired</h3>
+  <p>If you see a sign-in prompt after being idle, your session has expired. Sign in again&mdash;you'll be returned to where you were. Open conversations are not preserved across sessions.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ TIPS -->
+<section id="tips">
+  <h2>Tips for Power Users</h2>
+  <p class="section-intro">
+    Get more out of the platform with these practical tips.
+  </p>
+
+  <ul class="feature-list">
+    <li>
+      <div class="icon">&#8596;</div>
+      <div><strong>Use side-by-side mode</strong> &mdash; Put the agent next to the dashboard or database view. Ask the agent for specifics while keeping the visual context visible.</div>
+    </li>
+    <li>
+      <div class="icon">&#8595;</div>
+      <div><strong>Export early, filter in the spreadsheet</strong> &mdash; For complex analysis, ask the agent for a CSV export and do the heavy lifting in Excel or Sheets. Bulk updates are faster than one-by-one edits.</div>
+    </li>
+    <li>
+      <div class="icon">&#8618;</div>
+      <div><strong>Use follow-ups</strong> &mdash; The agent remembers conversation context. Start broad ("total spend this year") and drill in ("break that down by department", "now show me Engineering only"). You don't need to repeat filters.</div>
+    </li>
+    <li>
+      <div class="icon">&#9733;</div>
+      <div><strong>Be specific with time periods</strong> &mdash; "Last quarter" and "Q1 2026" both work, but specific periods avoid ambiguity.</div>
+    </li>
+    <li>
+      <div class="icon">&#9998;</div>
+      <div><strong>Say "edit" to open the form</strong> &mdash; If you need to update multiple fields on one vendor, saying "edit Datadog" opens the full form instead of doing field-by-field updates through chat.</div>
+    </li>
+    <li>
+      <div class="icon">&#128270;</div>
+      <div><strong>Don't worry about exact names</strong> &mdash; The agent uses fuzzy matching. "datadog", "Datadog", or even "datdog" will usually find the right vendor.</div>
+    </li>
+  </ul>
+
+  <div class="info-box">
+    <strong>AI data handling.</strong> The agent sends pre-filtered, aggregated results to the AI model (currently OpenAI) to compose natural language responses. How the AI provider handles that data is governed by the settings in your AI platform account. Review and configure those policies to match your organization's requirements.
+  </div>
+</section>
+
+</div><!-- /container -->
+</div><!-- /page -->
+
+<footer style="margin-left:200px">
+  <p>Arcade Management Platform &middot; User Guide &middot; Questions? Reach out to your admin.</p>
+</footer>
+
+</body>
+</html>

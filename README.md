@@ -8,6 +8,7 @@ copied to the hosting root at deploy time.
 ```
 public/
   overview.html    # Platform overview and release notes
+  user-guide.html  # User guide
 ```
 
 ## Workflow
