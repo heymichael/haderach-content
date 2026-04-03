@@ -497,6 +497,7 @@
       <a href="#navigation">Navigation</a>
       <a href="#layout">Layout &amp; Display Modes</a>
       <a href="#feedback-intro">Providing Feedback</a>
+      <a href="#settings-hub">Settings &amp; Admin</a>
     </div>
   </details>
 
@@ -515,6 +516,7 @@
     <summary onclick="document.getElementById('vendor-workspace').scrollIntoView({behavior:'smooth'})">Vendor Management</summary>
     <div class="nav-links">
       <a href="#vendor-workspace">Overview</a>
+      <a href="#vendor-admin">Vendor Admin</a>
       <a href="#vendor-database">Vendor Database</a>
       <a href="#spend-dashboard">Spend Dashboard</a>
       <a href="#spend-drilldowns">Spend Drilldowns</a>
@@ -525,23 +527,6 @@
     <summary onclick="document.getElementById('commodities-workspace').scrollIntoView({behavior:'smooth'})">Commodities</summary>
     <div class="nav-links">
       <a href="#commodities-workspace">Overview</a>
-    </div>
-  </details>
-
-  <details open>
-    <summary onclick="document.getElementById('settings').scrollIntoView({behavior:'smooth'})">Settings &amp; Admin</summary>
-    <div class="nav-links">
-      <a href="#settings">Settings Hub</a>
-      <a href="#system-admin">System Admin</a>
-      <a href="#vendor-admin">Vendor Admin</a>
-    </div>
-  </details>
-
-  <details open>
-    <summary onclick="document.getElementById('access-controls').scrollIntoView({behavior:'smooth'})">Access &amp; Permissions</summary>
-    <div class="nav-links">
-      <a href="#access-controls">How Access Works</a>
-      <a href="#roles">Roles</a>
     </div>
   </details>
 
@@ -684,7 +669,24 @@
   </div>
 
   <h3>General feedback</h3>
-  <p>For feedback about the platform itself&mdash;UI issues, feature requests, workflow suggestions&mdash;reach out to your admin. This covers anything outside of individual agent responses: navigation, dashboard layout, data display, and general usability.</p>
+  <p>For feedback about the platform itself&mdash;UI issues, feature requests, workflow suggestions&mdash;use the <strong>feedback button</strong> above the avatar in the top bar. This covers anything outside of individual agent responses: navigation, dashboard layout, data display, and general usability. Automated agents on our end review and triage every submission, getting your feedback into the product development loop as quickly as possible.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ SETTINGS (under Getting Started) -->
+<section id="settings-hub">
+  <h2>Settings &amp; Administration</h2>
+  <p class="section-intro">
+    The Settings hub is accessible from the account menu (bottom-left avatar &rarr; Settings). It lists the admin areas you have access to, based on your role. Every signed-in user can access the Settings hub, but the admin areas visible inside it depend on your role assignments. If you don't have any admin roles, the hub will be empty.
+  </p>
+
+  <h3>System Administration</h3>
+  <p>Available to users with the <strong>admin</strong> role. Manage users, roles, and application permissions.</p>
+  <ul class="feature-list">
+    <li><div class="icon">&#9998;</div><div><strong>Users</strong> &mdash; View and manage all users. Add new users, assign roles, and configure vendor access controls (departments, allowed vendors, denied vendors).</div></li>
+    <li><div class="icon">&#9776;</div><div><strong>Roles</strong> &mdash; View the available roles and their descriptions. Roles determine which applications a user can access and what level of data visibility they have.</div></li>
+    <li><div class="icon">&#9881;</div><div><strong>Apps</strong> &mdash; View the applications registered in the platform and which roles grant access to each one.</div></li>
+  </ul>
+
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════ AGENT GROUP -->
@@ -935,6 +937,141 @@
   <p>A complete vendor management workspace with spend analytics, a vendor database, and an AI agent&mdash;all in one place.</p>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════════ VENDOR ADMIN -->
+<section id="vendor-admin">
+  <h2>Vendor Administration</h2>
+  <p class="section-intro">
+    Available to users with the <strong>finance_admin</strong> role. Manage which departments and vendors each user can see spend data for.
+  </p>
+
+  <p>Vendor Administration is where finance admins configure the access controls that the agent enforces on every request. Every request is authenticated with your identity, and access controls are applied server-side before any results are returned&mdash;the AI agent only ever sees data you are authorized to access.</p>
+
+  <h3>Vendor data access</h3>
+  <p>All users can view vendor profiles (names, departments, metadata). Spend data visibility is determined by your access configuration:</p>
+
+  <table class="perm-table">
+    <thead>
+      <tr>
+        <th>Access Control</th>
+        <th>What it does</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Allowed Departments</strong></td>
+        <td>Grants access to spend for all vendors in those departments</td>
+        <td>Allowed: Engineering, Product &rarr; see spend for all vendors in those departments</td>
+      </tr>
+      <tr>
+        <td><strong>Allowed Vendors</strong></td>
+        <td>Adds individual vendors to your access set, regardless of department</td>
+        <td>You have Engineering access but can also see a specific Marketing vendor</td>
+      </tr>
+      <tr>
+        <td><strong>Denied Vendors</strong></td>
+        <td>Removes specific vendors from your access set (overrides the above)</td>
+        <td>You have Engineering access but a sensitive vendor is excluded</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="info-box">
+    <strong>The formula:</strong> Your effective access = (Vendors in Allowed Departments &cup; Allowed Vendor IDs) &minus; Denied Vendor IDs. This is computed server-side on every request. The AI model only sees pre-filtered, aggregated results.
+  </div>
+
+  <h3>Hidden vendors</h3>
+  <p>Admins can mark vendors as <strong>hidden from agent</strong>. These are excluded from all agent search, list, and analytics results for every user, regardless of role. This is useful for internal or test vendors that shouldn't appear in chat.</p>
+
+  <h3>Roles</h3>
+  <p>Roles determine which applications you can access and what level of data visibility you have.</p>
+
+  <table class="perm-table">
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>What it grants</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>user</strong></td>
+        <td>Base access. Can view vendor profiles, query scoped spend data, search, and edit vendors within allowed set.</td>
+      </tr>
+      <tr>
+        <td><strong>finance_admin</strong></td>
+        <td>Full spend visibility across all vendors. Access to Vendor Administration. No spend filtering is applied.</td>
+      </tr>
+      <tr>
+        <td><strong>admin</strong></td>
+        <td>Access to System Administration (Users, Roles, Apps). Can manage users and role assignments.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>What each role can do in Vendor Management</h3>
+  <table class="perm-table">
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>Finance Admin</th>
+        <th>Department User</th>
+        <th>No Access Config</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>View vendor profiles</td>
+        <td class="check">&#10003; All</td>
+        <td class="check">&#10003; All</td>
+        <td class="check">&#10003; All</td>
+      </tr>
+      <tr>
+        <td>Query spend totals</td>
+        <td class="check">&#10003; All vendors</td>
+        <td class="check">&#10003; Scoped</td>
+        <td class="cross">&#10005; No spend</td>
+      </tr>
+      <tr>
+        <td>Spend breakdowns</td>
+        <td class="check">&#10003; All vendors</td>
+        <td class="check">&#10003; Scoped</td>
+        <td class="cross">&#10005; No spend</td>
+      </tr>
+      <tr>
+        <td>Top vendors ranking</td>
+        <td class="check">&#10003; Full ranking</td>
+        <td class="check">&#10003; Your vendors only</td>
+        <td class="cross">&#10005; No spend</td>
+      </tr>
+      <tr>
+        <td>Spend detail drilldowns</td>
+        <td class="check">&#10003; Any vendor</td>
+        <td class="check">&#10003; Allowed only</td>
+        <td class="cross">&#10005; Not authorized</td>
+      </tr>
+      <tr>
+        <td>Add vendors</td>
+        <td class="check">&#10003;</td>
+        <td class="check">&#10003;</td>
+        <td class="check">&#10003;</td>
+      </tr>
+      <tr>
+        <td>Edit vendors</td>
+        <td class="check">&#10003; Any vendor</td>
+        <td class="check">&#10003; Scoped</td>
+        <td class="cross">&#10005; Not authorized</td>
+      </tr>
+      <tr>
+        <td>Bulk CSV edits</td>
+        <td class="check">&#10003; Any vendor</td>
+        <td class="check">&#10003; Scoped</td>
+        <td class="cross">&#10005; Not authorized</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
 <!-- ═══════════════════════════════════════════════════════════ VENDOR DATABASE -->
 <section id="vendor-database">
   <h2>The Vendor Database</h2>
@@ -1062,191 +1199,6 @@
   </p>
 
   <p>Commodities provides a data view for commodity tracking and market analysis. More details will be added to this guide as the workspace matures.</p>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ SETTINGS GROUP -->
-<div class="group-header" id="settings">
-  <h2>Settings &amp; Administration</h2>
-  <p>Manage users, roles, and application access controls from the Settings hub.</p>
-</div>
-
-<section id="settings-hub">
-  <h2>The Settings Hub</h2>
-  <p class="section-intro">
-    The Settings hub is accessible from the account menu (bottom-left avatar &rarr; Settings). It lists the admin areas you have access to, based on your role.
-  </p>
-
-  <p>Every signed-in user can access the Settings hub, but the admin areas visible inside it depend on your role assignments. If you don't have any admin roles, the hub will be empty.</p>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ SYSTEM ADMIN -->
-<section id="system-admin">
-  <h2>System Administration</h2>
-  <p class="section-intro">
-    Manage users, roles, and application permissions. Available to users with the <strong>admin</strong> role.
-  </p>
-
-  <h3>Users</h3>
-  <p>View and manage all users in the system. Add new users, assign roles, and configure vendor access controls (departments, allowed vendors, denied vendors). The Users page is the default view when entering System Administration.</p>
-
-  <h3>Roles</h3>
-  <p>View the available roles and their descriptions. Roles determine which applications a user can access and what level of data visibility they have.</p>
-
-  <h3>Apps</h3>
-  <p>View the applications registered in the platform and which roles grant access to each one.</p>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ VENDOR ADMIN -->
-<section id="vendor-admin">
-  <h2>Vendor Administration</h2>
-  <p class="section-intro">
-    Finance-focused vendor access and spend permissions management. Available to users with the <strong>finance_admin</strong> role.
-  </p>
-
-  <p>Vendor Administration provides controls for managing which departments and vendors each user can see spend data for. This is where finance admins configure the access controls that the agent enforces on every request.</p>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ ACCESS GROUP -->
-<div class="group-header" id="access-controls">
-  <h2>Access &amp; Permissions</h2>
-  <p>How the platform determines what data you can see and what actions you can take.</p>
-</div>
-
-<section id="how-access-works">
-  <h2>How Access Works</h2>
-  <p class="section-intro">
-    Every request is authenticated with your identity. Access controls are applied server-side before any results are returned, so the AI agent only ever sees data you are authorized to access.
-  </p>
-
-  <h3>Vendor data access</h3>
-  <p>All users can view vendor profiles (names, departments, metadata). Spend data visibility is determined by your access configuration:</p>
-
-  <table class="perm-table">
-    <thead>
-      <tr>
-        <th>Access Control</th>
-        <th>What it does</th>
-        <th>Example</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Allowed Departments</strong></td>
-        <td>Grants access to spend for all vendors in those departments</td>
-        <td>Allowed: Engineering, Product &rarr; see spend for all vendors in those departments</td>
-      </tr>
-      <tr>
-        <td><strong>Allowed Vendors</strong></td>
-        <td>Adds individual vendors to your access set, regardless of department</td>
-        <td>You have Engineering access but can also see a specific Marketing vendor</td>
-      </tr>
-      <tr>
-        <td><strong>Denied Vendors</strong></td>
-        <td>Removes specific vendors from your access set (overrides the above)</td>
-        <td>You have Engineering access but a sensitive vendor is excluded</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="info-box">
-    <strong>The formula:</strong> Your effective access = (Vendors in Allowed Departments &cup; Allowed Vendor IDs) &minus; Denied Vendor IDs. This is computed server-side on every request. The AI model only sees pre-filtered, aggregated results.
-  </div>
-
-  <h3>Hidden vendors</h3>
-  <p>Admins can mark vendors as <strong>hidden from agent</strong>. These are excluded from all agent search, list, and analytics results for every user, regardless of role. This is useful for internal or test vendors that shouldn't appear in chat.</p>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ ROLES -->
-<section id="roles">
-  <h2>Roles</h2>
-  <p class="section-intro">
-    Roles determine which applications you can access and what level of data visibility you have.
-  </p>
-
-  <table class="perm-table">
-    <thead>
-      <tr>
-        <th>Role</th>
-        <th>What it grants</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>user</strong></td>
-        <td>Base access. Can view vendor profiles, query scoped spend data, search, and edit vendors within allowed set.</td>
-      </tr>
-      <tr>
-        <td><strong>finance_admin</strong></td>
-        <td>Full spend visibility across all vendors. Access to Vendor Administration. No spend filtering is applied.</td>
-      </tr>
-      <tr>
-        <td><strong>admin</strong></td>
-        <td>Access to System Administration (Users, Roles, Apps). Can manage users and role assignments.</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>What each role can do in Vendor Management</h3>
-  <table class="perm-table">
-    <thead>
-      <tr>
-        <th>Capability</th>
-        <th>Finance Admin</th>
-        <th>Department User</th>
-        <th>No Access Config</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>View vendor profiles</td>
-        <td class="check">&#10003; All</td>
-        <td class="check">&#10003; All</td>
-        <td class="check">&#10003; All</td>
-      </tr>
-      <tr>
-        <td>Query spend totals</td>
-        <td class="check">&#10003; All vendors</td>
-        <td class="check">&#10003; Scoped</td>
-        <td class="cross">&#10005; No spend</td>
-      </tr>
-      <tr>
-        <td>Spend breakdowns</td>
-        <td class="check">&#10003; All vendors</td>
-        <td class="check">&#10003; Scoped</td>
-        <td class="cross">&#10005; No spend</td>
-      </tr>
-      <tr>
-        <td>Top vendors ranking</td>
-        <td class="check">&#10003; Full ranking</td>
-        <td class="check">&#10003; Your vendors only</td>
-        <td class="cross">&#10005; No spend</td>
-      </tr>
-      <tr>
-        <td>Spend detail drilldowns</td>
-        <td class="check">&#10003; Any vendor</td>
-        <td class="check">&#10003; Allowed only</td>
-        <td class="cross">&#10005; Not authorized</td>
-      </tr>
-      <tr>
-        <td>Add vendors</td>
-        <td class="check">&#10003;</td>
-        <td class="check">&#10003;</td>
-        <td class="check">&#10003;</td>
-      </tr>
-      <tr>
-        <td>Edit vendors</td>
-        <td class="check">&#10003; Any vendor</td>
-        <td class="check">&#10003; Scoped</td>
-        <td class="cross">&#10005; Not authorized</td>
-      </tr>
-      <tr>
-        <td>Bulk CSV edits</td>
-        <td class="check">&#10003; Any vendor</td>
-        <td class="check">&#10003; Scoped</td>
-        <td class="cross">&#10005; Not authorized</td>
-      </tr>
-    </tbody>
-  </table>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════ TROUBLESHOOTING GROUP -->
