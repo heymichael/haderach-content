@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="haderach" schema="public" type="PostgreSQL - 15.17">
+   <tables>
+      <table name="agent_feedback" numRows="20" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="1" name="created_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="2" name="modified_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="agent_feedback_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="chat_session_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="agent_feedback_chat_session_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="chat_sessions"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="message_seq" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="signal" nullable="false" remarks="" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="comment" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="8" name="collected" nullable="false" remarks="" size="1" type="bool" typeCode="-7"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="agent_feedback_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="agent_feedback_chat_session_id_message_seq_key" unique="true">
+            <column ascending="true" name="chat_session_id"/>
+            <column ascending="true" name="message_seq"/>
+         </index>
+         <index name="idx_agent_feedback_session" unique="false">
+            <column ascending="true" name="chat_session_id"/>
+         </index>
+         <index name="idx_agent_feedback_uncollected" unique="false">
+            <column ascending="true" name="created_at"/>
+         </index>
+      </table>
+      <table name="app_granting_roles" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="app_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="app_granting_roles_app_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="apps"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="role_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="app_granting_roles_role_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="roles"/>
+         </column>
+         <primaryKey column="app_id" sequenceNumberInPK="1"/>
+         <primaryKey column="role_id" sequenceNumberInPK="2"/>
+         <index name="app_granting_roles_pkey" unique="true">
+            <column ascending="true" name="app_id"/>
+            <column ascending="true" name="role_id"/>
+         </index>
+      </table>
+      <table name="apps" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <child column="app_id" foreignKey="app_granting_roles_app_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="app_granting_roles"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="slug" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="label" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'app'::text" digits="0" id="3" name="type" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="99" digits="0" id="4" name="sort_order" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="path" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="icon" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="apps_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="apps_slug_key" unique="true">
+            <column ascending="true" name="slug"/>
+         </index>
+      </table>
+      <table name="branding" numRows="1" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="nextval('branding_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="logo_svg" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'none'::lockup_mode" digits="0" id="2" name="show_lockup" nullable="false" remarks="" size="2147483647" type="lockup_mode" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="lockup_svg" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="branding_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="chat_sessions" numRows="287" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <child column="chat_session_id" foreignKey="agent_feedback_chat_session_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="agent_feedback"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="1" name="created_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="2" name="modified_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="chat_sessions_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="app_context" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'[]'::jsonb" digits="0" id="5" name="messages" nullable="false" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="chat_sessions_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="idx_chat_sessions_user" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+      </table>
+      <table name="departments" numRows="9" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <child column="department_id" foreignKey="user_allowed_departments_department_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_allowed_departments"/>
+            <child column="department_id" foreignKey="vendors_department_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendors"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="departments_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="departments_name_key" unique="true">
+            <column ascending="true" name="name"/>
+         </index>
+      </table>
+      <table name="roles" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <child column="role_id" foreignKey="app_granting_roles_role_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="app_granting_roles"/>
+            <child column="role_id" foreignKey="user_roles_role_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_roles"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="roles_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="roles_name_key" unique="true">
+            <column ascending="true" name="name"/>
+         </index>
+      </table>
+      <table name="site_feedback" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="1" name="created_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="site_feedback_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="app_id" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="open_panes" nullable="true" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="feedback_text" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="6" name="collected" nullable="false" remarks="" size="1" type="bool" typeCode="-7"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="site_feedback_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="idx_site_feedback_uncollected" unique="false">
+            <column ascending="true" name="created_at"/>
+         </index>
+         <index name="idx_site_feedback_user" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+      </table>
+      <table name="sync_job_log" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <child column="job_id" foreignKey="sync_job_step_job_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="sync_job_step"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="job_name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="status" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="3" name="started_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="4" name="finished_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="duration_ms" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="error" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="7" name="metadata" nullable="true" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="sync_job_log_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="idx_sync_job_log_name_started" unique="false">
+            <column ascending="true" name="job_name"/>
+            <column ascending="false" name="started_at"/>
+         </index>
+      </table>
+      <table name="sync_job_step" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="job_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="sync_job_step_job_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="sync_job_log"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="step_name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="status" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="started_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="5" name="finished_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="duration_ms" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="row_count" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="error" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="9" name="metadata" nullable="true" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="sync_job_step_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="idx_sync_job_step_job" unique="false">
+            <column ascending="true" name="job_id"/>
+         </index>
+      </table>
+      <table name="user_allowed_departments" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="user_allowed_departments_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="department_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="user_allowed_departments_department_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="departments"/>
+         </column>
+         <primaryKey column="user_id" sequenceNumberInPK="1"/>
+         <primaryKey column="department_id" sequenceNumberInPK="2"/>
+         <index name="user_allowed_departments_pkey" unique="true">
+            <column ascending="true" name="user_id"/>
+            <column ascending="true" name="department_id"/>
+         </index>
+      </table>
+      <table name="user_allowed_vendors" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="user_allowed_vendors_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="vendor_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="user_allowed_vendors_vendor_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="vendors"/>
+         </column>
+         <primaryKey column="user_id" sequenceNumberInPK="1"/>
+         <primaryKey column="vendor_id" sequenceNumberInPK="2"/>
+         <index name="user_allowed_vendors_pkey" unique="true">
+            <column ascending="true" name="user_id"/>
+            <column ascending="true" name="vendor_id"/>
+         </index>
+      </table>
+      <table name="user_denied_vendors" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="user_denied_vendors_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="vendor_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="user_denied_vendors_vendor_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="vendors"/>
+         </column>
+         <primaryKey column="user_id" sequenceNumberInPK="1"/>
+         <primaryKey column="vendor_id" sequenceNumberInPK="2"/>
+         <index name="user_denied_vendors_pkey" unique="true">
+            <column ascending="true" name="user_id"/>
+            <column ascending="true" name="vendor_id"/>
+         </index>
+      </table>
+      <table name="user_roles" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="user_roles_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="role_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="user_roles_role_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="roles"/>
+         </column>
+         <primaryKey column="user_id" sequenceNumberInPK="1"/>
+         <primaryKey column="role_id" sequenceNumberInPK="2"/>
+         <index name="user_roles_pkey" unique="true">
+            <column ascending="true" name="user_id"/>
+            <column ascending="true" name="role_id"/>
+         </index>
+      </table>
+      <table name="users" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <child column="user_id" foreignKey="agent_feedback_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="agent_feedback"/>
+            <child column="user_id" foreignKey="chat_sessions_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="chat_sessions"/>
+            <child column="user_id" foreignKey="site_feedback_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="site_feedback"/>
+            <child column="user_id" foreignKey="user_allowed_departments_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_allowed_departments"/>
+            <child column="user_id" foreignKey="user_allowed_vendors_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_allowed_vendors"/>
+            <child column="user_id" foreignKey="user_denied_vendors_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_denied_vendors"/>
+            <child column="user_id" foreignKey="user_roles_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_roles"/>
+            <child column="owner_id" foreignKey="vendors_owner_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendors"/>
+            <child column="secondary_owner_id" foreignKey="vendors_secondary_owner_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendors"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="email" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''::text" digits="0" id="2" name="first_name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="''::text" digits="0" id="3" name="last_name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="users_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="users_email_key" unique="true">
+            <column ascending="true" name="email"/>
+         </index>
+      </table>
+      <table name="vendor_monthly_spend" numRows="1261" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="vendor_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="vendor_monthly_spend_vendor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendors"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="date" nullable="false" remarks="" size="13" type="date" typeCode="91"/>
+         <column autoUpdated="false" defaultValue="null" digits="2" id="3" name="total_amount" nullable="false" remarks="" size="12" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="1" digits="0" id="4" name="bill_count" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="5" name="synced_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="vendor_monthly_spend_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="idx_spend_date" unique="false">
+            <column ascending="true" name="date"/>
+         </index>
+         <index name="vendor_monthly_spend_vendor_id_date_key" unique="true">
+            <column ascending="true" name="vendor_id"/>
+            <column ascending="true" name="date"/>
+         </index>
+      </table>
+      <table name="vendor_spend_detail" numRows="83" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="vendor_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="vendor_spend_detail_vendor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendors"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="date" nullable="false" remarks="" size="13" type="date" typeCode="91"/>
+         <column autoUpdated="false" defaultValue="null" digits="2" id="3" name="amount" nullable="false" remarks="" size="12" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="category" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="subcategory" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="project" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="user_email" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="8" name="metadata" nullable="true" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="9" name="synced_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="vendor_spend_detail_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="idx_spend_detail_category" unique="false">
+            <column ascending="true" name="category"/>
+         </index>
+         <index name="idx_spend_detail_subcategory" unique="false">
+            <column ascending="true" name="subcategory"/>
+         </index>
+         <index name="idx_spend_detail_unique" unique="true">
+            <column ascending="true" name="vendor_id"/>
+            <column ascending="true" name="date"/>
+         </index>
+         <index name="idx_spend_detail_vendor_date" unique="false">
+            <column ascending="true" name="vendor_id"/>
+            <column ascending="true" name="date"/>
+         </index>
+      </table>
+      <table name="vendors" numRows="936" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <child column="vendor_id" foreignKey="user_allowed_vendors_vendor_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_allowed_vendors"/>
+            <child column="vendor_id" foreignKey="user_denied_vendors_vendor_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_denied_vendors"/>
+            <child column="vendor_id" foreignKey="vendor_monthly_spend_vendor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendor_monthly_spend"/>
+            <child column="vendor_id" foreignKey="vendor_spend_detail_vendor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendor_spend_detail"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="source_system" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="source_system_id" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="department_id" nullable="true" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="vendors_department_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="departments"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="owner_id" nullable="true" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="vendors_owner_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="secondary_owner_id" nullable="true" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="vendors_secondary_owner_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="payment_method" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="billing_frequency" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="account_type" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="10" name="track_1099" nullable="true" remarks="" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="purpose" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="spend_type" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="13" name="aliases" nullable="true" remarks="" size="2147483647" type="_text" typeCode="2003"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="14" name="contract_start" nullable="true" remarks="" size="13" type="date" typeCode="91"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="15" name="contract_end" nullable="true" remarks="" size="13" type="date" typeCode="91"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="16" name="contract_months" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="17" name="auto_renew" nullable="true" remarks="" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="18" name="renewal_rate" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="19" name="renewal_notice" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="20" name="termination_terms" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="21" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="22" name="modified_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="23" name="synced_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="24" name="hidden_from_agent" nullable="false" remarks="" size="1" type="bool" typeCode="-7"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="vendors_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="idx_vendors_name_lower" unique="false"/>
+         <index name="idx_vendors_source" unique="false">
+            <column ascending="true" name="source_system"/>
+            <column ascending="true" name="source_system_id"/>
+         </index>
+         <index name="vendors_source_system_source_system_id_key" unique="true">
+            <column ascending="true" name="source_system"/>
+            <column ascending="true" name="source_system_id"/>
+         </index>
+      </table>
+   </tables>
+</database>
