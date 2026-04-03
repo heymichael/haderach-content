@@ -1,26 +1,49 @@
 # Haderach Content
 
-Static content pages served via Firebase Hosting. Files in `public/` are
-copied to the hosting root at deploy time.
+Static content served at [docs.haderach.ai](https://docs.haderach.ai) via a
+Cloud Run service (`content-api`) backed by a GCS bucket. Authentication is
+handled by Google OAuth with a user whitelist in the Postgres `users` table.
 
 ## Structure
 
 ```
 public/
-  overview.html    # Platform overview and release notes
-  user-guide.html  # User guide
+  index.html           # Landing page with links to all content sections
+  overview.html        # High-level platform overview — features and benefits
+  user-guide.html      # Detailed user guide — how-to instructions
+  api-docs/            # API reference docs (ReDoc, live OpenAPI specs)
+    index.html          # API docs landing page
+    agent-api.html      # Agent API reference
+    vendors-api.html    # Vendors API reference
+    stocks-api.html     # Stocks API reference
+  db-schema/           # SchemaSpy-generated database documentation
 ```
 
 ## Workflow
 
-1. Edit files, push a branch, open a PR
-2. PR checks pass in seconds (no build step)
-3. Merge to main
-4. Trigger `deploy-content` in `haderach-platform` to push to Firebase Hosting
+1. Create a feature branch and make changes locally
+2. Push the branch and open a PR
+3. PR checks run (no build step — static content only)
+4. Merge to `main`
+5. Manually trigger the `deploy-content` workflow in
+   [haderach-platform](https://github.com/heymichael/haderach-platform)
+   (Actions tab → `deploy-content` → select environment)
 
-## Deploying
+## How deployment works
 
-Content is deployed via the `deploy-content` workflow in the
-[haderach-platform](https://github.com/heymichael/haderach-platform) repo.
-It checks out this repo at HEAD, restores all other app artifacts, and
-deploys the assembled directory to Firebase Hosting.
+The `deploy-content` workflow in the haderach-platform repo:
+
+1. Checks out this repo at HEAD
+2. Authenticates to GCP via Workload Identity Federation
+3. Runs `gsutil -m rsync -r -d public/ gs://<CONTENT_BUCKET>/`
+
+Once the files land in the GCS bucket, the `content-api` Cloud Run service
+serves them immediately — there is no cache or build step in between.
+
+## Architecture
+
+- **GCS bucket** (`haderach-content-docs`) — stores all static files
+- **Cloud Run service** (`content-api`) — serves files from the bucket,
+  handles Google OAuth login, validates users against the Postgres whitelist
+- **Custom domain** — `docs.haderach.ai` maps to the Cloud Run service
+- **Terraform** — infrastructure is defined in `haderach-platform/infra/content-api.tf`

@@ -1,0 +1,22 @@
+---
+description: Content deployment workflow — always use PRs, never deploy directly
+globs:
+alwaysApply: true
+---
+
+# Content Deployment
+
+Static content in `public/` is served at `docs.haderach.ai` by a Cloud Run service (`content-api`) backed by a GCS bucket. Files land in GCS via the `deploy-content` workflow in the haderach-platform repo.
+
+## Rules
+
+1. **Never deploy directly.** Do not run `gsutil`, `gcloud storage`, or any manual upload command to push content to GCS. All content changes must go through a pull request.
+2. **Always use a feature branch.** Create a branch, commit changes, push, and open a PR. The deploy happens after merge via a manual workflow trigger.
+3. **No shortcutting.** Even for a one-line fix, use the PR flow. The pipeline exists to provide an auditable change history.
+
+## Deploy steps
+
+1. Merge PR to `main`
+2. Go to the [haderach-platform](https://github.com/heymichael/haderach-platform) repo → Actions tab → `deploy-content` → Run workflow → select environment
+3. The workflow checks out haderach-content at HEAD and runs `gsutil rsync` to the GCS bucket
+4. Changes are live on `docs.haderach.ai` immediately — no cache or build step
