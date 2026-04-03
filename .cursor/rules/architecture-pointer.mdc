@@ -1,0 +1,14 @@
+---
+description: Pointer to canonical architecture documentation
+alwaysApply: true
+---
+
+# Architecture pointer
+
+- Use `docs/architecture.md` as the canonical source for:
+  - Repo layout and ownership boundaries
+  - Serving architecture (Cloud Run + GCS)
+  - Deployment flow and rules
+  - Content types and cross-repo dependencies
+- When planning or implementing multi-file changes, check that file first.
+- If code and docs diverge, update `docs/architecture.md` in the same change.
