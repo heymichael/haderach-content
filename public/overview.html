@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arcade Business Platform — Release Notes</title>
+  <title>Arcade Business Platform — Overview</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -142,25 +142,6 @@
       border-top: 1px solid var(--border);
     }
 
-    .section-label {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-border);
-      padding: 4px 10px;
-      border-radius: 100px;
-      margin-bottom: 1rem;
-    }
-    .section-label.terracotta {
-      color: var(--terracotta);
-      background: var(--terracotta-soft);
-      border-color: var(--terracotta-border);
-    }
-
     h2 {
       font-size: 1.6rem;
       font-weight: 700;
@@ -185,42 +166,6 @@
 
     p { margin-bottom: 1rem }
 
-    /* ─── Try-it cards ────────────────────────────────────────── */
-
-    .try-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin: 1rem 0 1.5rem;
-    }
-    .try-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
-      font-size: 0.75rem;
-      line-height: 1.4;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-    .try-card:hover {
-      border-color: var(--accent-border);
-      box-shadow: 0 2px 12px rgba(67,97,238,0.06);
-    }
-    .try-card .label {
-      display: block;
-      font-size: 0.6rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--fg-dim);
-      margin-bottom: 3px;
-    }
-    .try-card code {
-      font-family: var(--mono);
-      font-size: 0.85em;
-      color: var(--accent);
-    }
-
     /* ─── Info boxes ──────────────────────────────────────────── */
 
     .info-box {
@@ -238,91 +183,6 @@
     .info-box strong { font-weight: 600 }
     .info-box ul { margin-top: 0.5rem; padding-left: 1.25rem }
     .info-box li { margin-bottom: 0.3rem }
-
-    /* ─── Permissions diagram ─────────────────────────────────── */
-
-    .perm-flow {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      margin: 2rem 0;
-    }
-    .perm-step {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-      position: relative;
-    }
-    .perm-step + .perm-step { margin-top: 0 }
-    .perm-node {
-      width: 40px;
-      min-width: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .perm-dot {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    .perm-line {
-      width: 2px;
-      flex: 1;
-      background: var(--border);
-      min-height: 24px;
-    }
-    .perm-content {
-      padding: 4px 0 20px;
-      flex: 1;
-    }
-    .perm-content h4 {
-      font-size: 0.85rem;
-      font-weight: 600;
-      display: inline;
-      margin-right: 6px;
-    }
-    .perm-content p {
-      font-size: 0.8rem;
-      color: var(--fg-muted);
-      margin: 0;
-      display: inline;
-    }
-
-    /* ─── Perm matrix table ───────────────────────────────────── */
-
-    .perm-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.88rem;
-      margin: 1.5rem 0;
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-    .perm-table th {
-      background: var(--navy);
-      color: #fff;
-      padding: 12px 16px;
-      text-align: left;
-      font-weight: 600;
-      font-size: 0.8rem;
-      letter-spacing: 0.03em;
-    }
-    .perm-table td {
-      padding: 11px 16px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
-    }
-    .perm-table tr:last-child td { border-bottom: none }
-    .perm-table tr:nth-child(even) td { background: var(--surface) }
-    .perm-table .check { color: #16a34a; font-weight: 600 }
-    .perm-table .cross { color: #dc2626; }
 
     /* ─── Feature list ────────────────────────────────────────── */
 
@@ -349,127 +209,6 @@
       font-size: 0.85rem;
     }
 
-    /* ─── Workflow steps ──────────────────────────────────────── */
-
-    .workflow {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px;
-      margin: 1rem 0 1.5rem;
-    }
-    .workflow-step {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      position: relative;
-    }
-    .workflow-step .num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: #fff;
-      font-size: 0.65rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .workflow-step h4 {
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-      white-space: nowrap;
-    }
-    .workflow-step p {
-      font-size: 0.72rem;
-      color: var(--fg-muted);
-      margin: 0;
-      line-height: 1.45;
-    }
-
-    /* ─── Scenario blocks ─────────────────────────────────────── */
-
-    .scenario {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      margin: 1.5rem 0;
-    }
-    .scenario-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--fg-dim);
-      margin-bottom: 12px;
-    }
-    .scenario .exchange {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 14px;
-      align-items: flex-start;
-    }
-    .scenario .exchange:last-child { margin-bottom: 0 }
-    .scenario .avatar {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      font-size: 0.7rem;
-      font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .scenario .avatar.user { background: var(--accent-soft); color: var(--accent) }
-    .scenario .avatar.agent { background: var(--navy); color: #fff }
-    .scenario .bubble {
-      font-size: 0.88rem;
-      line-height: 1.55;
-      flex: 1;
-    }
-    .scenario .bubble em {
-      font-style: italic;
-      color: var(--fg-muted);
-    }
-    .scenario .arrow {
-      font-size: 0.7rem;
-      color: var(--fg-dim);
-      padding-left: 40px;
-      margin: -6px 0 8px;
-    }
-
-    /* ─── Coming soon ─────────────────────────────────────────── */
-
-    .coming-soon {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--terracotta);
-      background: var(--terracotta-soft);
-      border: 1px solid var(--terracotta-border);
-      padding: 3px 10px;
-      border-radius: 100px;
-    }
-
-    /* ─── Footer ──────────────────────────────────────────────── */
-
-    footer {
-      text-align: center;
-      padding: 3rem 1.5rem 2.5rem;
-      color: var(--fg-dim);
-      font-size: 0.82rem;
-      border-top: 1px solid var(--border);
-      margin-top: 3rem;
-    }
-
-    /* ─── Responsive ──────────────────────────────────────────── */
-
     /* ─── Group headers ─────────────────────────────────────────── */
 
     .group-header {
@@ -490,15 +229,24 @@
       max-width: 580px;
     }
 
+    /* ─── Footer ──────────────────────────────────────────────── */
+
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem 2.5rem;
+      color: var(--fg-dim);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+
+    /* ─── Responsive ──────────────────────────────────────────── */
+
     @media (max-width: 640px) {
       .sidebar { display: none }
       .page { margin-left: 0 }
       .topbar { padding-left: 1.5rem }
       section { padding: 3rem 0 1rem }
-      .try-grid { grid-template-columns: 1fr }
-      .workflow { grid-template-columns: 1fr }
-      .perm-table { font-size: 0.8rem }
-      .perm-table th, .perm-table td { padding: 8px 10px }
     }
   </style>
 </head>
@@ -510,22 +258,15 @@
     <summary onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})">Platform</summary>
     <div class="nav-links">
       <a href="#overview">Overview</a>
-      <a href="#views">Views</a>
-      <a href="#layout">Layout &amp; Navigation</a>
+      <a href="#core-concepts">Core Concepts</a>
+      <a href="#security">Security &amp; Access</a>
     </div>
   </details>
 
   <details open>
     <summary onclick="document.getElementById('vendor-management').scrollIntoView({behavior:'smooth'})">Vendor Management</summary>
     <div class="nav-links">
-      <a href="#vendor-agent">Agent</a>
-      <a href="#permissions">Permissions</a>
-      <a href="#analytics">Analytics</a>
-      <a href="#search">Search &amp; Lookup</a>
-      <a href="#editing">Vendor Editing</a>
-      <a href="#bulk">Bulk CSV</a>
-      <a href="#spend-detail">Spend Detail</a>
-      <a href="#feedback">Feedback</a>
+      <a href="#capabilities">Key Capabilities</a>
     </div>
   </details>
 
@@ -549,585 +290,81 @@
 <section id="overview" style="padding-top:3rem">
   <h2>What is Arcade Business Platform?</h2>
   <p class="section-intro" style="font-size:1.1rem;max-width:700px">
-    Arcade Business Platform is built for managing business processes in an AI-first world. Each business domain&mdash;vendors, commodities, and more to come&mdash;gets a dedicated workspace with an AI agent, interactive dashboards, structured data views, and domain-specific modules tailored to that area of the business. The agent isn't bolted on; it's the primary interface, with traditional views and specialized tools alongside it for when you need them.
+    Arcade Business Platform is built for managing business processes in an AI-first world. Vendor management, commodity tracking, sourcing, design and merchandising, marketplace access, market research, trend management, distributed workforce coordination&mdash;no matter what domain you need to manage, it can live here in one integrated workspace. Each domain gets a dedicated environment with an AI agent, interactive dashboards, structured data views, and purpose-built modules tailored to that area of the business. No more switching between a forest of disconnected tools. The agent isn't bolted on&mdash;it's the primary interface, with traditional views and specialized tools alongside it for when you need them. In addition to providing insight and driving productivity, AI is the connective layer that allows smooth, highly efficient business processes to emerge across every part of your organization.
   </p>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════ VIEWS -->
-<section id="views">
-  <h2>Views</h2>
+<!-- ═══════════════════════════════════════════════════════════ CORE CONCEPTS -->
+<section id="core-concepts">
+  <h2>Core Concepts</h2>
   <p class="section-intro">
-    Every domain includes these three core views. Individual domains may also have additional views specific to their data.
-  </p>
-
-  <h3>Agent</h3>
-  <p>A conversational AI assistant built into every domain. Ask questions in plain English, get instant answers, and make changes through chat. The agent understands the domain's data and can read, search, analyze, and edit records on your behalf.</p>
-
-  <h3>Dashboards</h3>
-  <p>Traditional dashboard views with charts and summary metrics. Filterable by relevant dimensions for each domain. Dashboards are not controlled by the agent&mdash;they are standalone, visual interfaces for at-a-glance insights.</p>
-
-  <h3>Database views</h3>
-  <p>Searchable, sortable tables of your data with inline editing. Click any row to open a detail panel showing the full record&mdash;all fields, metadata, and related information in one place. Database views <em>can</em> be controlled by the agent: when you ask the agent to edit a record, the confirmation modal and edit forms operate on the same underlying data. Use the database view for browsing and manual edits, or pair it side-by-side with the agent to make changes conversationally.</p>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ LAYOUT -->
-<section id="layout">
-  <h2>Layout &amp; Navigation</h2>
-  <p class="section-intro">
-    Arcade Business Platform is organized around domains in the left rail. Each domain has its own AI agent and a set of views specific to that domain. The top bar controls what you see in the main content area.
+    The platform is organized around a few building blocks that repeat across every domain.
   </p>
 
   <h3>Domains</h3>
-  <p>The left rail lists your available domains (e.g. Vendors, Commodities). Selecting a domain loads its agent and views. Each domain is a self-contained workspace&mdash;the agent understands that domain's data and the views are purpose-built for it.</p>
+  <p>Each business area&mdash;Vendors, Commodities, and others as they come online&mdash;is a self-contained domain with its own AI agent, dashboards, and data views. The left rail lets you switch between domains. Selecting one loads its full workspace.</p>
 
-  <h3>How the top bar works</h3>
-  <p>The top bar lets you toggle between the agent, views, or both. There are four display modes:</p>
+  <h3>Agent</h3>
+  <p>Every domain includes a conversational AI assistant. Ask questions in plain English, get instant answers grounded in your data, and make changes through chat. The agent understands the domain's data model and enforces your access controls on every request.</p>
 
-  <div class="workflow">
-    <div class="workflow-step">
-      <div class="num">1</div>
-      <h4>Full-screen agent</h4>
-      <p>Select Chat in the top bar, deselect everything else. The agent takes the full screen.</p>
-    </div>
-    <div class="workflow-step">
-      <div class="num">2</div>
-      <h4>Full-screen view</h4>
-      <p>Select a view pane, deselect the agent. Dashboard or database fills the screen.</p>
-    </div>
-    <div class="workflow-step">
-      <div class="num">3</div>
-      <h4>Agent + one view</h4>
-      <p>Select Chat plus one view. Side-by-side: agent on the right, view on the left.</p>
-    </div>
-    <div class="workflow-step">
-      <div class="num">4</div>
-      <h4>Switch the view</h4>
-      <p>Select a different view while the agent stays open. The view swaps, the chat persists.</p>
-    </div>
-  </div>
+  <h3>Dashboards</h3>
+  <p>Traditional chart-and-metric views for at-a-glance insights. Dashboards are standalone visual interfaces&mdash;they operate independently of the agent and can be filtered by the relevant dimensions for each domain.</p>
+
+  <h3>Database views</h3>
+  <p>Searchable, sortable tables with inline editing and a detail panel for full record inspection. The database view shares the same underlying data as the agent, so changes made in either place are immediately reflected in the other.</p>
+
+  <h3>Flexible layout</h3>
+  <p>The toolbar lets you show the agent full-screen, a view full-screen, or both side-by-side. You can switch views while keeping your agent conversation open, making it easy to combine conversational exploration with visual context.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ SECURITY -->
+<section id="security">
+  <h2>Security &amp; Access Controls</h2>
+  <p class="section-intro">
+    In an AI-driven platform, data can surface in unexpected ways&mdash;through a conversational answer, an aggregated chart, or an exported CSV. Fine-grained, server-side access controls are not optional; they are foundational. Every request in Arcade is authenticated, and data visibility is enforced before any results are generated. The AI model only ever sees data the requesting user is authorized to access.
+  </p>
+
+  <p>Each domain defines its own access dimensions&mdash;departments, individual records, deny lists&mdash;and the platform enforces them consistently across the agent, dashboards, database views, CSV exports, and every other surface. Users with administrative roles can bypass filtering when needed. As new domains come online, they inherit the same permissions architecture.</p>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════ VENDOR MGMT GROUP -->
 <div class="group-header" id="vendor-management">
   <h2>Vendor Management</h2>
-  <p>A complete vendor management domain with an AI agent, spend analytics, and a vendor database&mdash;all in one workspace.</p>
+  <p>See and manage everything in one place. No more hopping between Bill.com, Ramp, and a forest of SaaS dashboards.</p>
 </div>
 
-<section id="vendor-agent">
-  <h2>The Agent</h2>
+<section id="capabilities">
+  <h2>Key Capabilities</h2>
   <p class="section-intro">
-    The centerpiece of Arcade Business Platform. A conversational AI assistant that understands your vendor data. Ask questions in plain English and get instant answers, analytics, and edits&mdash;all with enterprise-grade access controls.
-  </p>
-  <p>The sections below cover everything the vendor agent can do in detail.</p>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ PERMISSIONS -->
-<section id="permissions">
-  <h2>Permissions &amp; Data Access</h2>
-  <p class="section-intro">
-
-    Every agent request is authenticated with your Firebase identity. Spend data visibility is enforced server-side&mdash;access controls are applied <em>before</em> any results are generated, so the AI model only ever sees data you are authorized to access.
+    Arcade isn't a replacement for your systems of record&mdash;it's the layer that brings them together and turns vendor management into an integrated process between finance and managers. Spending data from payment platforms, vendor details from procurement tools, and contract metadata all flow into a single workspace where everyone is looking at the same data in the same way, each with their own view permissions. Finance sees the full picture; managers see exactly what's relevant to their teams. Ask questions about aggregate spending over time, or drill down into the details of a particular vendor. Focus on the business questions, not on which dashboard to open or who has the login. No more hopping between disconnected tools&mdash;everything is integrated, chat-accessible, and governed by a single permissioning system.
   </p>
 
-  <h3>How access is determined</h3>
-  <p>When you ask the agent about spend, the system resolves your identity and computes exactly which vendors you can see. This happens on every request. The database query itself is scoped to your allowed set, and only the pre-filtered, aggregated results are passed to the AI model so it can compose a natural language answer. Large exports (CSVs) bypass the model entirely and are sent straight to your browser.</p>
-
-  <div class="perm-flow">
-    <div class="perm-step">
-      <div class="perm-node">
-        <div class="perm-dot">1</div>
-        <div class="perm-line"></div>
-      </div>
-      <div class="perm-content">
-        <h4>Authenticate</h4>
-        <p>Your Firebase ID token is verified on every request. The agent resolves your user record and role assignments from the database.</p>
-      </div>
-    </div>
-    <div class="perm-step">
-      <div class="perm-node">
-        <div class="perm-dot">2</div>
-        <div class="perm-line"></div>
-      </div>
-      <div class="perm-content">
-        <h4>Check for Finance Admin</h4>
-        <p>Users with the <strong>finance_admin</strong> role bypass all filtering and see spend data across every vendor. If you have this role, you're done&mdash;full access.</p>
-      </div>
-    </div>
-    <div class="perm-step">
-      <div class="perm-node">
-        <div class="perm-dot">3</div>
-        <div class="perm-line"></div>
-      </div>
-      <div class="perm-content">
-        <h4>Resolve your vendor set</h4>
-        <p>For non-admin users, the system computes your effective vendor list using three inputs:</p>
-      </div>
-    </div>
-  </div>
-
-  <table class="perm-table">
-    <thead>
-      <tr>
-        <th>Access Control</th>
-        <th>What it does</th>
-        <th>Example</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Allowed Departments</strong></td>
-        <td>Grants access to <em>all</em> vendors in the specified departments</td>
-        <td>Allowed departments: Engineering, Product &rarr; see all vendors assigned to those departments</td>
-      </tr>
-      <tr>
-        <td><strong>Allowed Vendors</strong></td>
-        <td>Adds individual vendors to your access set, regardless of department</td>
-        <td>Even if you only have Engineering, you can be granted access to a specific Marketing vendor</td>
-      </tr>
-      <tr>
-        <td><strong>Denied Vendors</strong></td>
-        <td>Removes specific vendors from your access set, overriding the above</td>
-        <td>You have Engineering access but a sensitive vendor in that department is excluded</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="info-box">
-    <strong>The formula:</strong> Your effective access = (Vendors in Allowed Departments &cup; Allowed Vendor IDs) &minus; Denied Vendor IDs. This is computed server-side on every request. Database queries are scoped to your allowed vendor set, and the AI model only sees the resulting aggregates&mdash;never raw data outside your access.
-  </div>
-
-  <div class="info-box">
-    <strong>AI data usage is under your control.</strong> The agent sends pre-filtered, aggregated results to the AI model (currently OpenAI) so it can compose a natural language response. How the AI provider handles that data&mdash;including training, retention, and logging&mdash;is governed by the settings in your AI platform account. You are responsible for reviewing and configuring those policies to match your organization's data handling requirements.  </div>
-
-  <h3>What each role can see and do</h3>
-
-  <table class="perm-table">
-    <thead>
-      <tr>
-        <th>Capability</th>
-        <th>Finance Admin</th>
-        <th>Department User</th>
-        <th>No Access Config</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>View vendor profiles</td>
-        <td class="check">&#10003; All</td>
-        <td class="check">&#10003; All</td>
-        <td class="check">&#10003; All</td>
-      </tr>
-      <tr>
-        <td>Query spend totals</td>
-        <td class="check">&#10003; All vendors</td>
-        <td class="check">&#10003; Scoped to allowed set</td>
-        <td class="cross">&#10005; No spend data</td>
-      </tr>
-      <tr>
-        <td>Spend breakdowns (by vendor, dimension)</td>
-        <td class="check">&#10003; All vendors</td>
-        <td class="check">&#10003; Scoped to allowed set</td>
-        <td class="cross">&#10005; No spend data</td>
-      </tr>
-      <tr>
-        <td>Top vendors ranking</td>
-        <td class="check">&#10003; Full ranking</td>
-        <td class="check">&#10003; Only your vendors appear</td>
-        <td class="cross">&#10005; No spend data</td>
-      </tr>
-      <tr>
-        <td>Spend detail drilldowns (AWS services)</td>
-        <td class="check">&#10003; Any vendor</td>
-        <td class="check">&#10003; Allowed vendors only</td>
-        <td class="cross">&#10005; Not authorized</td>
-      </tr>
-      <tr>
-        <td>Add vendors</td>
-        <td class="check">&#10003;</td>
-        <td class="check">&#10003;</td>
-        <td class="check">&#10003;</td>
-      </tr>
-      <tr>
-        <td>Edit vendors</td>
-        <td class="check">&#10003; Any vendor</td>
-        <td class="check">&#10003; Scoped to allowed set</td>
-        <td class="cross">&#10005; Not authorized</td>
-      </tr>
-      <tr>
-        <td>Bulk CSV edits</td>
-        <td class="check">&#10003; Any vendor</td>
-        <td class="check">&#10003; Scoped to allowed set</td>
-        <td class="cross">&#10005; Not authorized</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="info-box warn">
-    <strong>If you get a "not authorized" response:</strong> This means the vendor you asked about is outside your allowed set. The agent will let you know clearly. Contact your admin to request access to additional departments or vendors.
-  </div>
-
-  <div class="scenario">
-    <div class="scenario-label">Scenario &mdash; Department-scoped user</div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"What's our total AWS spend this year?"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble">The agent queries spend but only includes data for AWS accounts within your allowed departments. If AWS is outside your set, you'll see: <em>"You don't have access to spend data for AWS."</em></div>
-    </div>
-  </div>
-
-  <div class="scenario">
-    <div class="scenario-label">Scenario &mdash; Finance admin</div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"Top 10 vendors by spend this year"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble">Full cross-company ranking, all vendors included&mdash;no filtering applied.</div>
-    </div>
-  </div>
-
-  <h3>Hidden vendors</h3>
-  <p>Admins can mark vendors as <strong>hidden from agent</strong>. These vendors are excluded from all agent search, list, and analytics results for every user, regardless of role. This is useful for internal or test vendors that shouldn't appear in chat conversations.</p>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ ANALYTICS -->
-<section id="analytics">
-  <h2>Vendor Spend Analytics</h2>
-  <p class="section-intro">
-    Ask spending questions in plain English. The agent translates your question into a precise database query, respects your access controls, and returns the answer instantly.
-  </p>
-
-  <h3>What you can ask</h3>
   <ul class="feature-list">
     <li>
       <div class="icon">$</div>
-      <div><strong>Total spend</strong> &mdash; Grand totals for any time period, with optional filters by department, payment method, owner, and more.</div>
+      <div><strong>Spend analytics</strong> &mdash; Total spend, breakdowns by department or payment method, top-N vendor rankings, and trend analysis across any time period. Combine filters naturally in plain English.</div>
     </li>
     <li>
-      <div class="icon">#</div>
-      <div><strong>Spend by vendor</strong> &mdash; Monthly breakdown for one vendor, or ranked list of all vendors by spend amount.</div>
+      <div class="icon">&#9776;</div>
+      <div><strong>Search &amp; lookup</strong> &mdash; Find vendors by name using fuzzy matching, count by category, or pull filtered lists. Large result sets are automatically offered as downloadable CSVs.</div>
+    </li>
+    <li>
+      <div class="icon">&#9998;</div>
+      <div><strong>Smart editing</strong> &mdash; Update vendor attributes through conversation or open a full edit form. Every change goes through a confirmation step with a clear diff of current vs. new values.</div>
+    </li>
+    <li>
+      <div class="icon">&#8595;</div>
+      <div><strong>Bulk CSV workflows</strong> &mdash; Export a filtered set of vendors as CSV, edit in any spreadsheet tool, upload back, and review a full batch diff before confirming.</div>
     </li>
     <li>
       <div class="icon">&div;</div>
-      <div><strong>Spend by dimension</strong> &mdash; Group spend by department, payment method, account type, billing frequency, source system, owner, or 1099 status.</div>
+      <div><strong>Spend detail drilldowns</strong> &mdash; Break down a specific vendor's spend by AWS service, subcategory, or project to see exactly where money is going. GCP support is coming soon.</div>
     </li>
     <li>
-      <div class="icon">&uarr;</div>
-      <div><strong>Top N vendors</strong> &mdash; Ranked list of your highest-spend vendors with custom N and filters.</div>
+      <div class="icon">+</div>
+      <div><strong>Add vendors</strong> &mdash; Create new vendor records through the agent with as much or as little detail as you have. The agent prompts for required fields and fills in what it can.</div>
     </li>
   </ul>
-
-  <h3>Time periods</h3>
-  <p>You don't need to remember special codes. Just say things naturally and the agent figures it out:</p>
-  <div class="try-grid">
-    <div class="try-card"><span class="label">Try saying</span>"Total spend <code>last quarter</code>"</div>
-    <div class="try-card"><span class="label">Try saying</span>"AWS spend in <code>Q1 2025</code>"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Spend by dept <code>year to date</code>"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Top vendors <code>last 6 months</code>"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Spend in <code>January 2026</code>"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Spend by vendor <code>H1 2025</code>"</div>
-  </div>
-
-  <h3>Filters</h3>
-  <p>Combine any of these filters with your question. They stack with AND logic:</p>
-  <div class="try-grid">
-    <div class="try-card"><span class="label">By department</span>"<code>Engineering</code> spend this year"</div>
-    <div class="try-card"><span class="label">By payment type</span>"Top 10 <code>ACH</code> vendors"</div>
-    <div class="try-card"><span class="label">By 1099 status</span>"How many <code>1099</code> vendors?"</div>
-    <div class="try-card"><span class="label">By owner</span>"<code>Sarah's</code> vendor spend"</div>
-    <div class="try-card"><span class="label">By source</span>"<code>Bill.com</code> vendors"</div>
-    <div class="try-card"><span class="label">Combined</span>"<code>ACH</code> + <code>Engineering</code>, <code>Q1</code>"</div>
-  </div>
-
-  <div class="scenario">
-    <div class="scenario-label">Example conversation</div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"What did we spend on vendors in Marketing last quarter?"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble">Total spend for Marketing department in Q1 2026 was <strong>$142,350.00</strong> across 18 vendors.</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"Break that down by payment method"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble">
-        Marketing Q1 2026 by payment method:<br>
-        &bull; ACH &mdash; $89,200.00<br>
-        &bull; Credit Card &mdash; $38,150.00<br>
-        &bull; Check &mdash; $15,000.00
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ SEARCH -->
-<section id="search">
-  <h2>Vendor Search &amp; Lookup</h2>
-  <p class="section-intro">
-    Find vendors by name, count them by category, or pull filtered lists. The agent uses fuzzy matching so you don't need to know exact names.
-  </p>
-
-  <h3>Smart name resolution</h3>
-  <p>The agent uses fuzzy matching to find vendors even when you use partial names, abbreviations, or slight misspellings. If multiple vendors match, it will ask you to pick the right one.</p>
-
-  <div class="scenario">
-    <div class="scenario-label">Scenario &mdash; Fuzzy matching &amp; disambiguation</div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"Look up Datadog"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble">Found <strong>Datadog, Inc.</strong> &mdash; Department: Engineering, Owner: jane@company.com, Payment: ACH, Billing: Monthly</div>
-    </div>
-    <div class="exchange" style="margin-top: 24px; padding-top: 16px; border-top: 1px dashed #e2e2e2">
-      <div class="avatar user">You</div>
-      <div class="bubble">"Look up Acme"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble"><em>I found multiple matches. Did you mean:</em><br>&bull; Acme Corp<br>&bull; Acme Services LLC<br>&bull; Acme Digital Solutions</div>
-    </div>
-  </div>
-
-  <h3>Listing &amp; counting</h3>
-  <div class="try-grid">
-    <div class="try-card"><span class="label">Try saying</span>"List all <code>ACH</code> vendors"</div>
-    <div class="try-card"><span class="label">Try saying</span>"How many <code>1099</code> vendors?"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Count by <code>payment method</code>"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Vendors in <code>Engineering</code>"</div>
-  </div>
-
-  <h3>CSV downloads for large lists</h3>
-  <p>When a list returns more than 10 vendors, the agent will mention that a downloadable CSV is available. A download button appears in the chat so you can export the full list to a spreadsheet.</p>
-
-  <div class="info-box">
-    <strong>Typo correction:</strong> If you misspell a filter value (e.g., "Mrketing" instead of "Marketing"), the agent will suggest the correct value and ask you to confirm.
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ EDITING -->
-<section id="editing">
-  <h2>Smart Vendor Editing</h2>
-  <p class="section-intro">
-    Edit vendor attributes through natural conversation. Every change goes through a confirmation step&mdash;the agent never writes data silently.
-  </p>
-
-  <h3>How edits work</h3>
-  <div class="workflow">
-    <div class="workflow-step">
-      <div class="num">1</div>
-      <h4>Ask for the change</h4>
-      <p>Tell the agent what you want to update in plain language.</p>
-    </div>
-    <div class="workflow-step">
-      <div class="num">2</div>
-      <h4>Review the proposal</h4>
-      <p>A confirmation modal shows exactly what will change, with current vs. new values.</p>
-    </div>
-    <div class="workflow-step">
-      <div class="num">3</div>
-      <h4>Confirm or cancel</h4>
-      <p>Click confirm to apply, or cancel to discard. Nothing is saved until you confirm.</p>
-    </div>
-  </div>
-
-  <h3>What you can edit</h3>
-  <p>Department, owner, secondary owner, billing frequency, account type, and purpose. For additional fields, say "edit" followed by the vendor name to open the full edit form.</p>
-
-  <div class="try-grid">
-    <div class="try-card"><span class="label">Try saying</span>"Move Datadog to <code>Engineering</code>"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Set AWS owner to <code>Sarah</code>"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Slack billing to <code>annual</code>"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Edit <code>Notion</code>"</div>
-  </div>
-
-  <div class="scenario">
-    <div class="scenario-label">Scenario &mdash; Edit with confirmation</div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"Change Datadog's department to Platform Engineering"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble"><em>A confirmation modal appears showing:</em><br>
-        <strong>Datadog, Inc.</strong><br>
-        Department: Engineering &rarr; Platform Engineering<br><br>
-        <em>[Confirm] [Cancel]</em></div>
-    </div>
-  </div>
-
-  <div class="scenario">
-    <div class="scenario-label">Scenario &mdash; Open full edit form</div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"Edit Notion"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble"><em>The full vendor edit form opens with all fields pre-populated.</em></div>
-    </div>
-  </div>
-
-  <h3>Adding new vendors</h3>
-  <div class="try-grid">
-    <div class="try-card"><span class="label">Try saying</span>"Add a vendor called <code>Acme</code>"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Add <code>Linear</code>, monthly ACH"</div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ BULK CSV -->
-<section id="bulk">
-  <h2>Bulk CSV Editing</h2>
-  <p class="section-intro">
-    Need to update many vendors at once? The agent generates a pre-filled CSV that you can edit in any spreadsheet tool, then upload back for a batch update with a full diff review.
-  </p>
-
-  <h3>The workflow</h3>
-  <div class="workflow">
-    <div class="workflow-step">
-      <div class="num">1</div>
-      <h4>Request a CSV</h4>
-      <p>Ask for a vendor export, optionally filtered by department or owner.</p>
-    </div>
-    <div class="workflow-step">
-      <div class="num">2</div>
-      <h4>Download &amp; edit</h4>
-      <p>Click the download button. Edit cells in Excel, Sheets, or any CSV editor.</p>
-    </div>
-    <div class="workflow-step">
-      <div class="num">3</div>
-      <h4>Upload the CSV</h4>
-      <p>Attach your edited CSV using the paperclip icon in the chat.</p>
-    </div>
-    <div class="workflow-step">
-      <div class="num">4</div>
-      <h4>Review &amp; confirm</h4>
-      <p>A diff view shows every change per vendor. Confirm the batch or cancel.</p>
-    </div>
-  </div>
-
-  <div class="try-grid">
-    <div class="try-card"><span class="label">Try saying</span>"CSV of <code>Engineering</code> vendors"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Bulk update <code>Marketing</code> vendors"</div>
-    <div class="try-card"><span class="label">Try saying</span>"CSV of vendors owned by <code>Sarah</code>"</div>
-    <div class="try-card"><span class="label">Try saying</span>"Export all vendors for editing"</div>
-  </div>
-
-  <div class="scenario">
-    <div class="scenario-label">Scenario &mdash; Bulk department reassignment</div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"I need to move all Product vendors to the Platform Engineering department"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble">I can handle that as a bulk update. Let me generate a CSV of all Product vendors for you to review and edit.<br><br><em>[Download: product-vendors.csv]</em></div>
-    </div>
-    <div class="arrow">&darr; You edit the department column in the CSV, then attach it back</div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble"><em>[Attaches edited CSV]</em> "Here's the updated file"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble"><em>A batch confirmation modal shows each vendor with its changes:</em><br>
-        &bull; Vendor A: Department Product &rarr; Platform Engineering<br>
-        &bull; Vendor B: Department Product &rarr; Platform Engineering<br>
-        &bull; (12 more...)<br><br>
-        <em>[Confirm All] [Cancel]</em></div>
-    </div>
-  </div>
-
-  <div class="info-box">
-    <strong>Validation built in:</strong> The upload step validates IDs, field values, enums, and dates. Invalid rows are flagged with specific error messages before you confirm, so nothing bad gets saved.
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ SPEND DETAIL -->
-<section id="spend-detail">
-  <h2>Spend Detail Drilldowns</h2>
-  <p class="section-intro">
-    Go beyond totals. Break down a specific vendor's spend by service, category, subcategory, or project to understand exactly where money is going.
-  </p>
-
-  <h3>AWS Cost Explorer <span class="coming-soon">GCP Coming Soon</span></h3>
-  <p>For vendors synced from AWS, you can drill into spend by AWS service, subcategory (SKU/usage type), or project. This uses your aggregated cost data to give instant answers without needing to log into the AWS console.</p>
-
-  <div class="try-grid">
-    <div class="try-card"><span class="label">Try saying</span>"<code>AWS</code> spend by service"</div>
-    <div class="try-card"><span class="label">Try saying</span>"What AWS services do we use?"</div>
-    <div class="try-card"><span class="label">Try saying</span>"<code>EC2</code> spend last quarter"</div>
-    <div class="try-card"><span class="label">Try saying</span>"AWS spend by <code>project</code>"</div>
-  </div>
-
-  <div class="scenario">
-    <div class="scenario-label">Scenario &mdash; AWS service drilldown</div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"Break down AWS spend by service this quarter"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble">
-        AWS spend by service in Q1 2026:<br>
-        &bull; EC2 &mdash; $45,200<br>
-        &bull; RDS &mdash; $22,100<br>
-        &bull; S3 &mdash; $8,750<br>
-        &bull; Lambda &mdash; $3,400<br>
-        &bull; CloudFront &mdash; $2,100<br>
-        &bull; (5 more services...)
-      </div>
-    </div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"Drill into EC2"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble">
-        EC2 breakdown by subcategory in Q1 2026:<br>
-        &bull; On-Demand Instances &mdash; $32,100<br>
-        &bull; NAT Gateway &mdash; $6,800<br>
-        &bull; EBS Volumes &mdash; $4,200<br>
-        &bull; Data Transfer &mdash; $2,100
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ FEEDBACK -->
-<section id="feedback">
-  <h2>Help Us Improve</h2>
-  <p class="section-intro">
-    Every agent response has thumbs up / thumbs down buttons. Your feedback is stored per-message and helps us identify where the agent is doing well and where it needs improvement.
-  </p>
-
-  <div class="workflow">
-    <div class="workflow-step">
-      <div class="num">&uarr;</div>
-      <h4>Thumbs up</h4>
-      <p>The response was accurate and helpful. This reinforces good behavior.</p>
-    </div>
-    <div class="workflow-step">
-      <div class="num">&darr;</div>
-      <h4>Thumbs down</h4>
-      <p>Something was wrong or unhelpful. You can optionally add a comment explaining what went wrong.</p>
-    </div>
-  </div>
-
-  <div class="info-box">
-    <strong>Your feedback matters.</strong> We review flagged responses regularly to tune the agent's behavior, fix edge cases, and improve accuracy. Even a simple thumbs-down without a comment is valuable.
-  </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════ COMMODITIES GROUP -->
