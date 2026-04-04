@@ -12,3 +12,4 @@ alwaysApply: true
   - Content types and cross-repo dependencies
 - When planning or implementing multi-file changes, check that file first.
 - If code and docs diverge, update `docs/architecture.md` in the same change.
+- For cross-repo context (repo purposes, relationships, shared infra), read `../haderach-tasks/repos.md`.
