@@ -27,11 +27,14 @@
     .app-btn { border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 1.1rem; font-weight: 600; color: #fff; background: #2ec4b6; transition: background 0.15s, box-shadow 0.15s; }
     .app-btn:hover { background: #28b0a3; box-shadow: 0 2px 8px rgba(46,196,182,0.25); }
     .app-btn svg { width: 18px; height: 18px; }
-    main { max-width: 640px; margin: 3rem auto; padding: 0 1.5rem; width: 100%; }
-    .card { border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem; text-decoration: none; color: inherit; display: block; transition: border-color 0.15s, box-shadow 0.15s; }
+    main { max-width: 800px; margin: 3rem auto; padding: 0 1.5rem; width: 100%; }
+    .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem; }
+    @media (max-width: 600px) { .columns { grid-template-columns: 1fr; } }
+    .column-heading { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--fg-muted); margin-bottom: 0.75rem; }
+    .card { border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 0.75rem; text-decoration: none; color: inherit; display: block; transition: border-color 0.15s, box-shadow 0.15s; }
     .card:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(67,97,238,0.1); }
-    .card h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.35rem; }
-    .card p { font-size: 0.9rem; color: var(--fg-muted); line-height: 1.5; }
+    .card h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .card p { font-size: 0.85rem; color: var(--fg-muted); line-height: 1.5; }
     footer { margin-top: auto; padding: 1.5rem; text-align: center; font-size: 0.8rem; color: var(--fg-muted); border-top: 1px solid var(--border); }
   </style>
 </head>
@@ -41,18 +44,29 @@
     <p>Internal reference &amp; guides</p>
   </header>
   <main>
-    <a class="card" href="/overview">
-      <h2>Platform Overview</h2>
-    </a>
-    <a class="card" href="/user-guide">
-      <h2>User Guide</h2>
-    </a>
-    <a class="card" href="/db-schema/">
-      <h2>Database Schema</h2>
-    </a>
-    <a class="card" href="/api-docs/">
-      <h2>API Reference</h2>
-    </a>
+    <div class="columns">
+      <div>
+        <div class="column-heading">Product</div>
+        <a class="card" href="/overview">
+          <h2>Platform Overview</h2>
+        </a>
+        <a class="card" href="/user-guide">
+          <h2>User Guide</h2>
+        </a>
+      </div>
+      <div>
+        <div class="column-heading">Technical</div>
+        <a class="card" href="/api-docs/">
+          <h2>API Reference</h2>
+        </a>
+        <a class="card" href="/db-schema/">
+          <h2>Database Schema</h2>
+        </a>
+        <a class="card" href="/components/">
+          <h2>Components & Design System</h2>
+        </a>
+      </div>
+    </div>
     <a class="app-btn" href="https://haderach.ai/vendors">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
       Take me to Arcade Business Platform
