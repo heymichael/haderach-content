@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transformation Platform — Release Notes</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root {
+      --navy: #121227;
+      --navy-light: #1e1e3a;
+      --accent: #4361ee;
+      --accent-soft: rgba(67,97,238,0.08);
+      --accent-border: rgba(67,97,238,0.18);
+      --terracotta: #cc6e66;
+      --terracotta-soft: rgba(204,110,102,0.08);
+      --terracotta-border: rgba(204,110,102,0.18);
+      --green: #16a34a;
+      --green-soft: rgba(22,163,74,0.08);
+      --green-border: rgba(22,163,74,0.18);
+      --fg: #191919;
+      --fg-muted: #5c5c5c;
+      --fg-dim: #8a8a8a;
+      --border: #e2e2e2;
+      --surface: #f7f7f8;
+      --bg: #ffffff;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --font: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --mono: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 50px }
+
+    body {
+      font-family: var(--font);
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Header ──────────────────────────────────────────────── */
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 400;
+      background: var(--navy);
+      color: #fff;
+      padding: 10px 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .topbar h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    /* ─── Sidebar Nav ─────────────────────────────────────────── */
+
+    .sidebar {
+      position: fixed;
+      top: 38px;
+      left: 0;
+      width: 200px;
+      height: calc(100vh - 38px);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 40px 0;
+      overflow-y: auto;
+      z-index: 300;
+    }
+    .sidebar details {
+      margin: 0;
+    }
+    .sidebar summary {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--fg);
+      padding: 10px 20px;
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+      transition: background 0.15s;
+    }
+    .sidebar summary::-webkit-details-marker { display: none }
+    .sidebar summary::before {
+      content: '▸';
+      font-size: 1.5rem;
+      color: var(--fg-dim);
+      transition: transform 0.15s;
+    }
+    .sidebar details[open] > summary::before {
+      transform: rotate(90deg);
+    }
+    .sidebar summary:hover {
+      background: rgba(0,0,0,0.03);
+    }
+
+    /* nested second-level details */
+    .sidebar details details {
+      margin: 0;
+    }
+    .sidebar details details > summary {
+      padding-left: 36px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--fg-muted);
+    }
+    .sidebar details details > summary::before {
+      font-size: 1.2rem;
+    }
+    .sidebar details details .nav-links a {
+      padding-left: 52px;
+    }
+
+    .sidebar .nav-links a {
+      display: block;
+      padding: 5px 20px 5px 36px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--fg-muted);
+      text-decoration: none;
+      transition: color 0.15s, background 0.15s;
+    }
+    .sidebar .nav-links a:hover {
+      color: var(--fg);
+      background: rgba(0,0,0,0.03);
+    }
+
+    /* ─── Layout ──────────────────────────────────────────────── */
+
+    .page {
+      margin-left: 200px;
+      padding-top: 38px;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 4.5rem 0 1rem;
+    }
+
+    section + section {
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── Group headers (dark navy bars) ──────────────────────── */
+
+    .group-header {
+      background: var(--navy);
+      color: #fff;
+      padding: 2.5rem 1.5rem 2rem;
+      margin: 0 -1.5rem;
+    }
+    .group-header h2 {
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+    .group-header p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.55);
+      margin: 0;
+      max-width: 580px;
+    }
+
+    /* remove top border on first section after a group header */
+    .group-header + section {
+      border-top: none;
+    }
+
+    /* ─── Section headings ────────────────────────────────────── */
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-intro {
+      font-size: 1.05rem;
+      color: var(--fg-muted);
+      margin-bottom: 2rem;
+      max-width: 640px;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    p { margin-bottom: 1rem }
+
+    ul, ol { margin-bottom: 1rem; padding-left: 1.5rem }
+    li { margin-bottom: 0.4rem }
+
+    /* ─── Release intro section ───────────────────────────────── */
+
+    .release-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 0.25rem;
+    }
+
+    .release-version {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
+    }
+
+    .release-date {
+      font-size: 0.85rem;
+      color: var(--fg-muted);
+      font-weight: 500;
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+
+    @media (max-width: 640px) {
+      .sidebar { display: none }
+      .page { margin-left: 0 }
+      .topbar { padding-left: 1.5rem }
+      section { padding: 3rem 0 1rem }
+      .group-header { margin: 0 -1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ SIDEBAR -->
+<nav class="sidebar">
+  <details open>
+    <summary onclick="document.getElementById('v1-1').scrollIntoView({behavior:'smooth'})">v1.1 &mdash; Apr 5</summary>
+    <div class="nav-links">
+      <details open>
+        <summary onclick="document.getElementById('v1-1-features').scrollIntoView({behavior:'smooth'})">New Features</summary>
+        <div class="nav-links">
+          <a href="#v1-1-domain-split">Expense &amp; Vendor Split</a>
+          <a href="#v1-1-tabular-data">Tables in Chat</a>
+          <a href="#v1-1-contractor-perms">Contractor Access</a>
+          <a href="#v1-1-design-system">Design System Docs</a>
+        </div>
+      </details>
+      <details open>
+        <summary onclick="document.getElementById('v1-1-improvements').scrollIntoView({behavior:'smooth'})">Improvements</summary>
+        <div class="nav-links">
+          <a href="#v1-1-theming">Consistent Look &amp; Feel</a>
+        </div>
+      </details>
+      <details open>
+        <summary onclick="document.getElementById('v1-1-bugs').scrollIntoView({behavior:'smooth'})">Bug Fixes</summary>
+        <div class="nav-links">
+          <a href="#v1-1-currency">Currency Adjustment</a>
+        </div>
+      </details>
+    </div>
+  </details>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════ TOPBAR -->
+<div class="page">
+<header class="topbar">
+  <h1>Transformation Platform &mdash; Release Notes</h1>
+</header>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════ v1.1 INTRO -->
+<section id="v1-1" style="padding-top:3rem">
+  <div class="release-header">
+    <span class="release-version">v1.1</span>
+    <span class="release-date">April 5, 2026</span>
+  </div>
+  <p class="section-intro">
+    New Expense Tracking and Vendor Management domains, better tables in agent chat, contractor access controls, design system documentation, a more consistent experience across domains, and a currency bug fix. The <a href="/user-guide" style="color:var(--accent)">User Guide</a> has been updated to reflect these changes.
+  </p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ NEW FEATURES -->
+<div class="group-header" id="v1-1-features">
+  <h2>New Features</h2>
+  <p>New capabilities added in this release.</p>
+</div>
+
+<section id="v1-1-domain-split">
+  <h2>Separate Expense Tracking &amp; Vendor Management Domains</h2>
+  <p class="section-intro">
+    What was previously one combined Vendors domain is now two focused domains &mdash; Expense Tracking and Vendor Management.
+  </p>
+  <p>Expense Tracking is where you go to ask questions about spend &mdash; totals, breakdowns, trends, and comparisons. Vendor Management is where you look up, edit, and organize your vendor records. Each domain has its own dedicated agent that understands exactly what you need in that context.</p>
+  <p>Because each agent is focused on fewer tasks, answers are faster and more accurate. You&rsquo;ll also notice that the Expense Tracking agent no longer volunteers extra information you didn&rsquo;t ask for. And when you do need to cross over &mdash; say, check a vendor&rsquo;s spend while managing their record &mdash; the agents coordinate behind the scenes so you don&rsquo;t have to switch domains yourself.</p>
+</section>
+
+<section id="v1-1-tabular-data">
+  <h2>Real Tables in Agent Responses</h2>
+  <p class="section-intro">
+    When you ask the agent a data question, the answer now includes a proper table you can read, copy, and download.
+  </p>
+  <p>Previously, the agent would describe your data in paragraph form &mdash; sometimes adding extra numbers you didn&rsquo;t ask for or formatting things inconsistently. Now, spend breakdowns, rankings, and comparisons appear as clean, structured tables right in the chat. Each table includes a copy button and a CSV download so you can easily move the data into a spreadsheet or share it with your team.</p>
+</section>
+
+<section id="v1-1-contractor-perms">
+  <h2>Contractor Access Controls</h2>
+  <p class="section-intro">
+    Finance admins can now mark vendors as contractors and control exactly who can see their invoices, payments, and spend.
+  </p>
+  <p>When a vendor is flagged as a contractor, their financial details are hidden from all users by default. A finance admin must explicitly grant access to individual team members before they can view that contractor&rsquo;s spend data. Basic vendor information (name, category, department) remains visible to everyone &mdash; only the sensitive financial data is restricted.</p>
+  <p>New vendors are treated as contractors by default, so nothing is exposed until a finance admin reviews and grants access. There is no automatic carry-over &mdash; if an existing vendor is newly marked as a contractor, access is revoked immediately until re-granted.</p>
+</section>
+
+<section id="v1-1-design-system">
+  <h2>Components &amp; Design System Documentation</h2>
+  <p class="section-intro">
+    A new section on the docs site lets you browse every UI component, color, font, and brand asset used across the platform.
+  </p>
+  <p>You can interact with each component directly &mdash; toggle options, resize viewports, and see how things look at different screen sizes. The full color palette, typography scale, and spacing system are documented alongside the components. This is available from the &ldquo;Components &amp; Design System&rdquo; link on the docs index page.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ IMPROVEMENTS -->
+<div class="group-header" id="v1-1-improvements">
+  <h2>Improvements</h2>
+  <p>Enhancements to existing functionality.</p>
+</div>
+
+<section id="v1-1-theming">
+  <h2>Consistent Look &amp; Feel Across Domains</h2>
+  <p class="section-intro">
+    Colors, typography, spacing, and component styling are now unified across all domains.
+  </p>
+  <p>Previously, visual inconsistencies could appear when switching between Vendors, Commodities, and Settings &mdash; slightly different button styles, text sizes, or background shades. These domains now share a single design foundation, so the experience feels seamless as you move between them.</p>
+  <p>Sign-in screens, empty states, chat formatting, and the overall shell all look and behave identically regardless of which domain you&rsquo;re in.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ BUG FIXES -->
+<div class="group-header" id="v1-1-bugs">
+  <h2>Bug Fixes</h2>
+  <p>Issues resolved in this release.</p>
+</div>
+
+<section id="v1-1-currency">
+  <h2>Currency Adjustment for Rupee-Denominated Invoices</h2>
+  <p class="section-intro">
+    Fixed an issue where INR-denominated contractor invoices were displaying spend amounts without converting to USD.
+  </p>
+  <p>Invoices for rupee-denominated contractors were appearing at their original INR values in spend totals and drill-downs, inflating apparent spend. These amounts are now correctly converted to USD before display and aggregation.</p>
+  <p>This is a temporary fix. A permanent solution will come when the platform switches to QuickBooks as the primary invoice source, which handles multi-currency conversion automatically.</p>
+</section>
+
+</div><!-- /.container -->
+</div><!-- /.page -->
+</body>
+</html>
