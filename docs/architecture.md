@@ -29,6 +29,11 @@ haderach-content/
 │   │   └── stocks-api.html
 │   └── db-schema/               # SchemaSpy-generated database documentation
 └── README.md
+
+Note: `docs.haderach.ai/components/` serves a Storybook instance built from
+`haderach-home/packages/shared-ui`. Those files live in the same GCS bucket
+under `components/` but are **not** part of this repo — they are deployed by
+the `deploy-storybook` workflow in `haderach-home`.
 ```
 
 ## Ownership Boundaries
@@ -78,7 +83,9 @@ Feature branch → PR → Merge to main → Manual workflow trigger → GCS sync
 3. Merge to `main`.
 4. Go to `haderach-platform` repo → Actions → `deploy-content` → Run workflow → select environment.
 5. The workflow checks out this repo at HEAD, authenticates to GCP via WIF,
-   and runs `gsutil -m rsync -r -d public/ gs://<CONTENT_BUCKET>/`.
+   and runs `gsutil -m rsync -r -d -x '^components/' public/ gs://<CONTENT_BUCKET>/`.
+   The `-x` exclusion preserves the `components/` directory which is managed
+   by a separate Storybook deploy from `haderach-home`.
 6. Changes are live on `docs.haderach.ai` immediately — no cache or build step.
 
 ### Important
@@ -107,6 +114,13 @@ currently deployed API.
 SchemaSpy-generated HTML documentation. These are static snapshots and must be
 regenerated and committed when the database schema changes.
 
+### Component library (components/) — external
+
+Storybook documentation for `@haderach/shared-ui`. Built and deployed by the
+`deploy-storybook` workflow in `haderach-home` on push to main when
+`packages/shared-ui/**` changes. Files land in `gs://<CONTENT_BUCKET>/components/`
+and are served at `docs.haderach.ai/components/`.
+
 ## Infrastructure Reference
 
 All infrastructure is managed in the `haderach-platform` repo:
@@ -129,3 +143,4 @@ All infrastructure is managed in the `haderach-platform` repo:
 | Postgres `users` table | `agent` (migrations) | User whitelist for auth |
 | OpenAPI specs | `agent`, `vendors`, `stocks` | Live API documentation |
 | CORS middleware | `agent`, `vendors`, `stocks` | Allows ReDoc to fetch specs from `docs.haderach.ai` |
+| `deploy-storybook` workflow | `haderach-home` | Builds and deploys Storybook to `components/` in the content bucket |
