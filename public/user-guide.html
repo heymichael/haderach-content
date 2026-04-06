@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arcade Management Platform — User Guide</title>
+  <title>Transformation Platform — User Guide</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -513,20 +513,20 @@
   </details>
 
   <details open>
-    <summary onclick="document.getElementById('vendor-workspace').scrollIntoView({behavior:'smooth'})">Vendor Management</summary>
+    <summary onclick="document.getElementById('expense-tracking').scrollIntoView({behavior:'smooth'})">Expense Tracking</summary>
     <div class="nav-links">
-      <a href="#vendor-workspace">Overview</a>
-      <a href="#vendor-admin">Vendor Admin</a>
-      <a href="#vendor-database">Vendor Database</a>
+      <a href="#expense-tracking">Overview</a>
       <a href="#spend-dashboard">Spend Dashboard</a>
       <a href="#spend-drilldowns">Spend Drilldowns</a>
     </div>
   </details>
 
   <details open>
-    <summary onclick="document.getElementById('commodities-workspace').scrollIntoView({behavior:'smooth'})">Commodities</summary>
+    <summary onclick="document.getElementById('vendor-workspace').scrollIntoView({behavior:'smooth'})">Vendor Management</summary>
     <div class="nav-links">
-      <a href="#commodities-workspace">Overview</a>
+      <a href="#vendor-workspace">Overview</a>
+      <a href="#vendor-admin">Vendor Admin</a>
+      <a href="#vendor-database">Vendor Database</a>
     </div>
   </details>
 
@@ -542,7 +542,7 @@
 <!-- ═══════════════════════════════════════════════════════════ TOPBAR -->
 <div class="page">
 <header class="topbar">
-  <h1>Arcade Management Platform &mdash; User Guide</h1>
+  <h1>Transformation Platform &mdash; User Guide</h1>
 </header>
 
 <div class="container">
@@ -551,7 +551,7 @@
 <section id="getting-started" style="padding-top:3rem">
   <h2>Signing In</h2>
   <p class="section-intro">
-    Arcade Management Platform uses Google sign-in. Your session is shared across all applications in the platform, so you only need to sign in once.
+    Transformation Platform uses Google sign-in. Your session is shared across all domains in the platform, so you only need to sign in once.
   </p>
 
   <div class="workflow">
@@ -568,12 +568,12 @@
     <div class="workflow-step">
       <div class="num">3</div>
       <h4>You're in</h4>
-      <p>Once signed in, you'll be redirected to your default application.</p>
+      <p>Once signed in, you'll be redirected to your default domain.</p>
     </div>
   </div>
 
   <div class="info-box">
-    <strong>Your session persists across apps.</strong> Signing in to one application (Vendors, Commodities, or Settings) signs you into all of them. You won't be asked to re-authenticate when switching between apps.
+    <strong>Your session persists across domains.</strong> Signing in to one domain (Expense Tracking, Vendor Management, Commodities, or Settings) signs you into all of them. You won't be asked to re-authenticate when switching between domains.
   </div>
 </section>
 
@@ -581,30 +581,30 @@
 <section id="navigation">
   <h2>Navigation</h2>
   <p class="section-intro">
-    The platform is organized around domains. Each domain is a self-contained workspace with its own AI agent, dashboards, and data views.
+    The platform is organized around domains. Each domain has its own AI agent, dashboards, and data views.
   </p>
 
   <h3>The left rail</h3>
-  <p>The left rail lists your available domains. Selecting a domain loads its workspace&mdash;agent, views, and tools specific to that domain. The domains you see depend on your assigned roles:</p>
+  <p>The left rail lists your available domains. Selecting a domain loads its agent, views, and tools. The domains you see depend on your assigned roles:</p>
 
   <table class="perm-table">
     <thead>
       <tr>
-        <th>Application</th>
+        <th>Domain</th>
         <th>What it is</th>
         <th>URL</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>Vendors</strong></td>
-        <td>Vendor directory, spend analytics, and AI agent for vendor management</td>
-        <td><code>/vendors/</code></td>
+        <td><strong>Expense Tracking</strong></td>
+        <td>Spend analytics, dashboards, and an AI agent for exploring your spend data</td>
+        <td><code>/expenses/</code></td>
       </tr>
       <tr>
-        <td><strong>Commodities</strong></td>
-        <td>Commodity tracking, pricing, and market analysis</td>
-        <td><code>/stocks/</code></td>
+        <td><strong>Vendor Management</strong></td>
+        <td>Vendor directory, database, and an AI agent for managing vendor records</td>
+        <td><code>/vendors/</code></td>
       </tr>
     </tbody>
   </table>
@@ -621,7 +621,7 @@
   </p>
 
   <h3>The app rail</h3>
-  <p>The left rail lists the available domains. Clicking a domain loads its workspace&mdash;the agent, views, and tools specific to that domain.</p>
+  <p>The left rail lists the available domains. Clicking a domain loads its agent, views, and tools.</p>
 
   <h3>The toolbar</h3>
   <p>The top toolbar lets you choose which panes are visible. You can show the agent, a view, or both side-by-side. There are four display modes:</p>
@@ -680,11 +680,11 @@
   </p>
 
   <h3>System Administration</h3>
-  <p>Available to users with the <strong>admin</strong> role. Manage users, roles, and application permissions.</p>
+  <p>Available to users with the <strong>admin</strong> role. Manage users, roles, and domain permissions.</p>
   <ul class="feature-list">
     <li><div class="icon">&#9998;</div><div><strong>Users</strong> &mdash; View and manage all users. Add new users, assign roles, and configure vendor access controls (departments, allowed vendors, denied vendors).</div></li>
-    <li><div class="icon">&#9776;</div><div><strong>Roles</strong> &mdash; View the available roles and their descriptions. Roles determine which applications a user can access and what level of data visibility they have.</div></li>
-    <li><div class="icon">&#9881;</div><div><strong>Apps</strong> &mdash; View the applications registered in the platform and which roles grant access to each one.</div></li>
+    <li><div class="icon">&#9776;</div><div><strong>Roles</strong> &mdash; View the available roles and their descriptions. Roles determine which domains a user can access and what level of data visibility they have.</div></li>
+    <li><div class="icon">&#9881;</div><div><strong>Domains</strong> &mdash; View the domains registered in the platform and which roles grant access to each one.</div></li>
   </ul>
 
 </section>
@@ -746,12 +746,20 @@
     <div class="exchange">
       <div class="avatar agent">H</div>
       <div class="bubble">
-        AWS Q1 2026 by service:<br>
-        &bull; EC2 &mdash; $45,200<br>
-        &bull; RDS &mdash; $22,100<br>
-        &bull; S3 &mdash; $8,750<br>
-        &bull; Lambda &mdash; $3,400<br>
-        &bull; CloudFront &mdash; $2,100
+        Here&rsquo;s your AWS spend for Q1 2026 by service:<br><br>
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:0">
+          <thead><tr style="border-bottom:2px solid var(--border);text-align:left">
+            <th style="padding:6px 8px">Service</th><th style="padding:6px 8px;text-align:right">Spend</th>
+          </tr></thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">EC2</td><td style="padding:6px 8px;text-align:right">$45,200</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">RDS</td><td style="padding:6px 8px;text-align:right">$22,100</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">S3</td><td style="padding:6px 8px;text-align:right">$8,750</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">Lambda</td><td style="padding:6px 8px;text-align:right">$3,400</td></tr>
+            <tr><td style="padding:6px 8px">CloudFront</td><td style="padding:6px 8px;text-align:right">$2,100</td></tr>
+          </tbody>
+        </table>
+        <br><em style="font-size:0.78rem;color:var(--fg-dim)">[Copy] [Download CSV]</em>
       </div>
     </div>
   </div>
@@ -931,10 +939,125 @@
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════════════════════ EXPENSE TRACKING GROUP -->
+<div class="group-header" id="expense-tracking">
+  <h2>Expense Tracking</h2>
+  <p>Explore your spend data with dashboards, charts, and a dedicated AI agent that answers questions about totals, trends, and breakdowns.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ SPEND DASHBOARD -->
+<section id="spend-dashboard">
+  <h2>The Spend Dashboard</h2>
+  <p class="section-intro">
+    Visual spend analytics with charts and summary metrics. Use the dashboard for at-a-glance insights and the agent for deeper analysis.
+  </p>
+
+  <h3>Dashboard views</h3>
+  <p>The spend dashboard provides charts and summary metrics for your spend. Filters let you narrow by vendor, department, time period, and other dimensions. The dashboard operates independently of the agent&mdash;it's a traditional, visual interface for quick overviews.</p>
+
+  <h3>When to use the dashboard vs. the agent</h3>
+  <table class="perm-table">
+    <thead>
+      <tr>
+        <th>Use the dashboard when&hellip;</th>
+        <th>Use the agent when&hellip;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>You want a visual overview of spend trends</td>
+        <td>You need a specific number or answer to a question</td>
+      </tr>
+      <tr>
+        <td>You're scanning for anomalies or outliers</td>
+        <td>You want to drill into a specific vendor or service</td>
+      </tr>
+      <tr>
+        <td>You need to present a chart to someone</td>
+        <td>You want to compare spend across custom dimensions</td>
+      </tr>
+      <tr>
+        <td>You're doing exploratory analysis</td>
+        <td>You want to export filtered data as CSV</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="info-box success">
+    <strong>Try them side-by-side.</strong> Set the toolbar to show the dashboard plus the agent. Explore visually with the dashboard on the left while asking the agent for specifics on the right.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ SPEND DRILLDOWNS -->
+<section id="spend-drilldowns">
+  <h2>Spend Drilldowns</h2>
+  <p class="section-intro">
+    Go beyond totals and break down a specific vendor's spend by service, subcategory, or project to see exactly where money is going.
+  </p>
+
+  <h3>AWS &amp; GCP Cost Explorer</h3>
+  <p>For vendors synced from AWS or GCP, the agent can drill into spend by service, subcategory, or project. This uses your aggregated cost data&mdash;no need to log into the AWS or GCP console.</p>
+
+  <div class="try-grid">
+    <div class="try-card"><span class="label">By service</span>"<code>AWS</code> spend by service"</div>
+    <div class="try-card"><span class="label">Discovery</span>"What <code>GCP</code> services do we use?"</div>
+    <div class="try-card"><span class="label">Drill in</span>"<code>EC2</code> spend last quarter"</div>
+    <div class="try-card"><span class="label">By project</span>"GCP spend by <code>project</code>"</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-label">Example &mdash; Progressive drilldown</div>
+    <div class="exchange">
+      <div class="avatar user">You</div>
+      <div class="bubble">"AWS spend by service this quarter"</div>
+    </div>
+    <div class="exchange">
+      <div class="avatar agent">H</div>
+      <div class="bubble">
+        Here&rsquo;s your AWS spend for Q1 2026 by service:<br><br>
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:0">
+          <thead><tr style="border-bottom:2px solid var(--border);text-align:left">
+            <th style="padding:6px 8px">Service</th><th style="padding:6px 8px;text-align:right">Spend</th>
+          </tr></thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">EC2</td><td style="padding:6px 8px;text-align:right">$45,200</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">RDS</td><td style="padding:6px 8px;text-align:right">$22,100</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">S3</td><td style="padding:6px 8px;text-align:right">$8,750</td></tr>
+            <tr><td style="padding:6px 8px">Lambda</td><td style="padding:6px 8px;text-align:right">$3,400</td></tr>
+          </tbody>
+        </table>
+        <br><em style="font-size:0.78rem;color:var(--fg-dim)">[Copy] [Download CSV]</em>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="avatar user">You</div>
+      <div class="bubble">"Drill into EC2"</div>
+    </div>
+    <div class="exchange">
+      <div class="avatar agent">H</div>
+      <div class="bubble">
+        EC2 spend for Q1 2026 by subcategory:<br><br>
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:0">
+          <thead><tr style="border-bottom:2px solid var(--border);text-align:left">
+            <th style="padding:6px 8px">Subcategory</th><th style="padding:6px 8px;text-align:right">Spend</th>
+          </tr></thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">On-Demand Instances</td><td style="padding:6px 8px;text-align:right">$32,100</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">NAT Gateway</td><td style="padding:6px 8px;text-align:right">$6,800</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">EBS Volumes</td><td style="padding:6px 8px;text-align:right">$4,200</td></tr>
+            <tr><td style="padding:6px 8px">Data Transfer</td><td style="padding:6px 8px;text-align:right">$2,100</td></tr>
+          </tbody>
+        </table>
+        <br><em style="font-size:0.78rem;color:var(--fg-dim)">[Copy] [Download CSV]</em>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════════════════════════════════════════════════════ VENDOR GROUP -->
 <div class="group-header" id="vendor-workspace">
   <h2>Vendor Management</h2>
-  <p>A complete vendor management workspace with spend analytics, a vendor database, and an AI agent&mdash;all in one place.</p>
+  <p>Look up, organize, and edit your vendor records. A searchable database and an AI agent for managing vendor information.</p>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ VENDOR ADMIN -->
@@ -977,14 +1100,23 @@
   </table>
 
   <div class="info-box">
-    <strong>The formula:</strong> Your effective access = (Vendors in Allowed Departments &cup; Allowed Vendor IDs) &minus; Denied Vendor IDs. This is computed server-side on every request. The AI model only sees pre-filtered, aggregated results.
+    <strong>The formula:</strong> Your effective access = (Vendors in Allowed Departments &cup; Allowed Vendor IDs) &minus; Denied Vendor IDs &minus; Contractors without explicit access grant. This is computed server-side on every request. The AI model only sees pre-filtered, aggregated results.
   </div>
+
+  <h3>Contractor access controls</h3>
+  <p>Finance admins can mark any vendor as a <strong>contractor</strong>. When a vendor is flagged as a contractor, their financial details &mdash; invoices, payments, and spend &mdash; are hidden from all users by default. A finance admin must explicitly grant access to individual team members before they can view that contractor&rsquo;s spend data.</p>
+  <p>This is managed in two places within Vendor Administration (Settings &rarr; Vendor Admin):</p>
+  <ul>
+    <li><strong>Contractor classification</strong> &mdash; view and toggle the contractor flag on any vendor. Only finance admins can change this setting.</li>
+    <li><strong>Contractor access management</strong> &mdash; for each contractor vendor, see which users currently have access and grant or revoke access for individual team members.</li>
+  </ul>
+  <p>Basic vendor information (name, category, department) remains visible to everyone. Only the sensitive financial data is restricted. New vendors are treated as contractors by default, so nothing is exposed until a finance admin reviews and grants access. If an existing vendor is newly marked as a contractor, access is revoked immediately until re-granted.</p>
 
   <h3>Hidden vendors</h3>
   <p>Admins can mark vendors as <strong>hidden from agent</strong>. These are excluded from all agent search, list, and analytics results for every user, regardless of role. This is useful for internal or test vendors that shouldn't appear in chat.</p>
 
   <h3>Roles</h3>
-  <p>Roles determine which applications you can access and what level of data visibility you have.</p>
+  <p>Roles determine which domains you can access and what level of data visibility you have.</p>
 
   <table class="perm-table">
     <thead>
@@ -1000,11 +1132,11 @@
       </tr>
       <tr>
         <td><strong>finance_admin</strong></td>
-        <td>Full spend visibility across all vendors. Access to Vendor Administration. No spend filtering is applied.</td>
+        <td>Full spend visibility across all vendors. Access to Vendor Administration. Controls contractor designation and per-user contractor access grants. No spend filtering is applied.</td>
       </tr>
       <tr>
         <td><strong>admin</strong></td>
-        <td>Access to System Administration (Users, Roles, Apps). Can manage users and role assignments.</td>
+        <td>Access to System Administration (Users, Roles, Domains). Can manage users and role assignments.</td>
       </tr>
     </tbody>
   </table>
@@ -1093,114 +1225,6 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════ SPEND DASHBOARD -->
-<section id="spend-dashboard">
-  <h2>The Spend Dashboard</h2>
-  <p class="section-intro">
-    Visual spend analytics with charts and summary metrics. Use the dashboard for at-a-glance insights and the agent for deeper analysis.
-  </p>
-
-  <h3>Dashboard views</h3>
-  <p>The spend dashboard provides charts and summary metrics for your vendor spend. Filters let you narrow by department, payment method, time period, and other dimensions. The dashboard operates independently of the agent&mdash;it's a traditional, visual interface for quick overviews.</p>
-
-  <h3>When to use the dashboard vs. the agent</h3>
-  <table class="perm-table">
-    <thead>
-      <tr>
-        <th>Use the dashboard when&hellip;</th>
-        <th>Use the agent when&hellip;</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>You want a visual overview of spend trends</td>
-        <td>You need a specific number or answer to a question</td>
-      </tr>
-      <tr>
-        <td>You're scanning for anomalies or outliers</td>
-        <td>You want to drill into a specific vendor or service</td>
-      </tr>
-      <tr>
-        <td>You need to present a chart to someone</td>
-        <td>You want to compare spend across custom dimensions</td>
-      </tr>
-      <tr>
-        <td>You're doing exploratory analysis</td>
-        <td>You want to export filtered data as CSV</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="info-box success">
-    <strong>Try them side-by-side.</strong> Set the toolbar to show the dashboard plus the agent. Explore visually with the dashboard on the left while asking the agent for specifics on the right.
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ SPEND DRILLDOWNS -->
-<section id="spend-drilldowns">
-  <h2>Spend Drilldowns</h2>
-  <p class="section-intro">
-    Go beyond totals and break down a specific vendor's spend by service, subcategory, or project to see exactly where money is going.
-  </p>
-
-  <h3>AWS Cost Explorer</h3>
-  <p>For vendors synced from AWS, the agent can drill into spend by AWS service, subcategory (SKU/usage type), or project. This uses your aggregated cost data&mdash;no need to log into the AWS console.</p>
-
-  <div class="try-grid">
-    <div class="try-card"><span class="label">By service</span>"<code>AWS</code> spend by service"</div>
-    <div class="try-card"><span class="label">Discovery</span>"What AWS services do we use?"</div>
-    <div class="try-card"><span class="label">Drill in</span>"<code>EC2</code> spend last quarter"</div>
-    <div class="try-card"><span class="label">By project</span>"AWS spend by <code>project</code>"</div>
-  </div>
-
-  <div class="scenario">
-    <div class="scenario-label">Example &mdash; Progressive drilldown</div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"AWS spend by service this quarter"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble">
-        AWS Q1 2026 by service:<br>
-        &bull; EC2 &mdash; $45,200<br>
-        &bull; RDS &mdash; $22,100<br>
-        &bull; S3 &mdash; $8,750<br>
-        &bull; Lambda &mdash; $3,400
-      </div>
-    </div>
-    <div class="exchange">
-      <div class="avatar user">You</div>
-      <div class="bubble">"Drill into EC2"</div>
-    </div>
-    <div class="exchange">
-      <div class="avatar agent">H</div>
-      <div class="bubble">
-        EC2 Q1 2026 by subcategory:<br>
-        &bull; On-Demand Instances &mdash; $32,100<br>
-        &bull; NAT Gateway &mdash; $6,800<br>
-        &bull; EBS Volumes &mdash; $4,200<br>
-        &bull; Data Transfer &mdash; $2,100
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════ COMMODITIES GROUP -->
-<div class="group-header" id="commodities-workspace">
-  <h2>Commodities</h2>
-  <p>Track and analyze commodity positions, pricing, and market exposure across your portfolio.</p>
-</div>
-
-<section id="commodities-overview">
-  <h2>Commodities Workspace</h2>
-  <p class="section-intro">
-    The Commodities domain is available in the left rail. This workspace is under active development&mdash;features are being added and refined.
-  </p>
-
-  <p>Commodities provides a data view for commodity tracking and market analysis. More details will be added to this guide as the workspace matures.</p>
-</section>
-
 <!-- ═══════════════════════════════════════════════════════════ TROUBLESHOOTING GROUP -->
 <div class="group-header" id="troubleshooting">
   <h2>Troubleshooting &amp; Tips</h2>
@@ -1278,7 +1302,7 @@
 </div><!-- /page -->
 
 <footer style="margin-left:200px">
-  <p>Arcade Management Platform &middot; User Guide &middot; Questions? Reach out to your admin.</p>
+  <p>&copy; 2026 Haderach, LLC &middot; User Guide &middot; Questions? Reach out to your admin.</p>
 </footer>
 
 </body>
