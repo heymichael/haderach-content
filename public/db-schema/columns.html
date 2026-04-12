@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Haderach.ai</title>
+        <title>haderach.public</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
@@ -46,7 +46,7 @@
                 <nav class="navbar navbar-static-top">
                     <div class="container">
                         <div class="navbar-header">
-                            <a href="index.html" class="navbar-brand"><b>Haderach.ai</b></a>
+                            <a href="index.html" class="navbar-brand"><b>haderach</b></a><span class="navbar-brand" style="padding-left: 0">.public</span>
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"><i class="fa fa-bars"></i></button>
                         </div>
 
@@ -372,7 +372,7 @@
         "type": "serial",
         "length": 10,
         "nullable": "",
-        "autoUpdated": "",
+        "autoUpdated": "√",
         "defaultValue": "nextval('branding_id_seq'::regclass)",
         "comments": ""
     },
@@ -965,6 +965,188 @@
         "comments": ""
     },
     {
+        "tableName": "user_context",
+        "tableFileName": "user_context",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "id",
+        "type": "uuid",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_context",
+        "tableFileName": "user_context",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "email",
+        "type": "citext",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_context",
+        "tableFileName": "user_context",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "first_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_context",
+        "tableFileName": "user_context",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "last_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_context",
+        "tableFileName": "user_context",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "role_names",
+        "type": "_text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_context",
+        "tableFileName": "user_context",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "allowed_departments",
+        "type": "_text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_context",
+        "tableFileName": "user_context",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "allowed_vendor_ids",
+        "type": "_text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_context",
+        "tableFileName": "user_context",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "denied_vendor_ids",
+        "type": "_text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_context",
+        "tableFileName": "user_context",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "allowed_vendors",
+        "type": "jsonb",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_contractor_access",
+        "tableFileName": "user_contractor_access",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'></i>user_id",
+        "type": "uuid",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_contractor_access",
+        "tableFileName": "user_contractor_access",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'></i>vendor_id",
+        "type": "uuid",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_contractor_access",
+        "tableFileName": "user_contractor_access",
+        "tableType": "Table",
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'></i>granted_by",
+        "type": "uuid",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "user_contractor_access",
+        "tableFileName": "user_contractor_access",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "granted_at",
+        "type": "timestamptz",
+        "length": 35,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "now()",
+        "comments": ""
+    },
+    {
         "tableName": "user_denied_vendors",
         "tableFileName": "user_denied_vendors",
         "tableType": "Table",
@@ -1041,7 +1223,7 @@
         "keyClass": "indexedColumn",
         "keyTitle": "Indexed",
         "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'></i>email",
-        "type": "text",
+        "type": "citext",
         "length": 2147483647,
         "nullable": "",
         "autoUpdated": "",
@@ -1089,6 +1271,328 @@
         "autoUpdated": "",
         "defaultValue": "now()",
         "comments": ""
+    },
+    {
+        "tableName": "users",
+        "tableFileName": "users",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "updated_at",
+        "type": "timestamptz",
+        "length": 35,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "now()",
+        "comments": ""
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Vendor</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "source_system",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Source system</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "source_system_id",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Source system ID</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "payment_method",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Payment method</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "billing_frequency",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Billing frequency</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "account_type",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Account type</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "track_1099",
+        "type": "bool",
+        "length": 1,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>1099 tracked</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "purpose",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Purpose</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "spend_type",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Spend type</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "contract_start",
+        "type": "date",
+        "length": 13,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Contract start</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "contract_end",
+        "type": "date",
+        "length": 13,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Contract end</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "contract_months",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Contract length (months)</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "auto_renew",
+        "type": "bool",
+        "length": 1,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Auto-renew</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "renewal_rate",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Renewal rate</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "renewal_notice",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Renewal notice (days)</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "termination_terms",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Termination terms</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "created_at",
+        "type": "timestamptz",
+        "length": 35,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Created</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "modified_at",
+        "type": "timestamptz",
+        "length": 35,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Modified</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "synced_at",
+        "type": "timestamptz",
+        "length": 35,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Last synced</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "department",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Department</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "owner",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Owner</p>"
+    },
+    {
+        "tableName": "vendor_display_v",
+        "tableFileName": "vendor_display_v",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "secondary_owner",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Secondary owner</p>"
     },
     {
         "tableName": "vendor_monthly_spend",
@@ -1340,7 +1844,7 @@
         "nullable": "",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Source system</p>"
     },
     {
         "tableName": "vendors",
@@ -1354,7 +1858,7 @@
         "nullable": "",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Source system ID</p>"
     },
     {
         "tableName": "vendors",
@@ -1368,7 +1872,7 @@
         "nullable": "",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Vendor</p>"
     },
     {
         "tableName": "vendors",
@@ -1424,7 +1928,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Payment method</p>"
     },
     {
         "tableName": "vendors",
@@ -1438,7 +1942,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Billing frequency</p>"
     },
     {
         "tableName": "vendors",
@@ -1452,7 +1956,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Account type</p>"
     },
     {
         "tableName": "vendors",
@@ -1466,7 +1970,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "false",
-        "comments": ""
+        "comments": "<p>1099 tracked</p>"
     },
     {
         "tableName": "vendors",
@@ -1480,7 +1984,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Purpose</p>"
     },
     {
         "tableName": "vendors",
@@ -1494,7 +1998,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Spend type</p>"
     },
     {
         "tableName": "vendors",
@@ -1522,7 +2026,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Contract start</p>"
     },
     {
         "tableName": "vendors",
@@ -1536,7 +2040,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Contract end</p>"
     },
     {
         "tableName": "vendors",
@@ -1550,7 +2054,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Contract length (months)</p>"
     },
     {
         "tableName": "vendors",
@@ -1564,7 +2068,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Auto-renew</p>"
     },
     {
         "tableName": "vendors",
@@ -1578,7 +2082,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Renewal rate</p>"
     },
     {
         "tableName": "vendors",
@@ -1592,7 +2096,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Renewal notice (days)</p>"
     },
     {
         "tableName": "vendors",
@@ -1606,7 +2110,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Termination terms</p>"
     },
     {
         "tableName": "vendors",
@@ -1620,7 +2124,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "now()",
-        "comments": ""
+        "comments": "<p>Created</p>"
     },
     {
         "tableName": "vendors",
@@ -1634,7 +2138,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "now()",
-        "comments": ""
+        "comments": "<p>Modified</p>"
     },
     {
         "tableName": "vendors",
@@ -1648,7 +2152,7 @@
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>Last synced</p>"
     },
     {
         "tableName": "vendors",
@@ -1662,6 +2166,20 @@
         "nullable": "",
         "autoUpdated": "",
         "defaultValue": "false",
+        "comments": ""
+    },
+    {
+        "tableName": "vendors",
+        "tableFileName": "vendors",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "is_contractor",
+        "type": "bool",
+        "length": 1,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "true",
         "comments": ""
     }
 ];

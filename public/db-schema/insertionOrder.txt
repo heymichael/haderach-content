@@ -15,4 +15,5 @@ user_allowed_departments
 user_allowed_vendors
 user_denied_vendors
 user_roles
+user_contractor_access
 branding

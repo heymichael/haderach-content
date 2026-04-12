@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>users - Haderach.ai</title>
+        <title>users - haderach.public</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>users</h1><p><span id="recordNumber">-1</span> rows</p><br />
+                    <h1>users</h1><p><span id="recordNumber">9</span> rows</p><br />
                 </section>
                 <!-- Main content -->
                 <section class="content">
@@ -143,6 +143,16 @@
                                                 <td class="constraint detail"><span title='Cascade on delete:&#10;Deletion of parent deletes child'>C</span></td>
                                             </tr>
                                             <tr>
+                                                <td title="user_contractor_access.granted_by references users.id via user_contractor_access_granted_by_fkey"><a href='user_contractor_access.html'>user_contractor_access</a><span class='relatedKey'>.granted_by</span></td>
+                                                <td class="constraint detail">user_contractor_access_granted_by_fkey</td>
+                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td title="user_contractor_access.user_id references users.id via user_contractor_access_user_id_fkey"><a href='user_contractor_access.html'>user_contractor_access</a><span class='relatedKey'>.user_id</span></td>
+                                                <td class="constraint detail">user_contractor_access_user_id_fkey</td>
+                                                <td class="constraint detail"><span title='Cascade on delete:&#10;Deletion of parent deletes child'>C</span></td>
+                                            </tr>
+                                            <tr>
                                                 <td title="user_denied_vendors.user_id references users.id via user_denied_vendors_user_id_fkey"><a href='user_denied_vendors.html'>user_denied_vendors</a><span class='relatedKey'>.user_id</span></td>
                                                 <td class="constraint detail">user_denied_vendors_user_id_fkey</td>
                                                 <td class="constraint detail"><span title='Cascade on delete:&#10;Deletion of parent deletes child'>C</span></td>
@@ -172,7 +182,7 @@
                                 </tr>
                                 <tr>
                                     <td class='indexedColumn' title='Indexed'><i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'></i><span id="email">email</span></td>
-                                    <td>text</td>
+                                    <td>citext</td>
                                     <td>2147483647</td>
                                     <td title=''></td>
                                     <td title=''></td>
@@ -238,6 +248,23 @@
                                     </td>
                                     <td></td>
                                 </tr>
+                                <tr>
+                                    <td><span id="updated_at">updated_at</span></td>
+                                    <td>timestamptz</td>
+                                    <td>35,6</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>now()</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -286,6 +313,38 @@
                     </div>
                     <div class="box box-primary">
                         <div class="box-header with-border">
+                            <i class="fa fa-sitemap"></i>
+                            <h3 class="box-title">Check Constraints</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table
+                                    id="check_table"
+                                    class="table table-bordered table-striped dataTable"
+                                    role="grid"
+                                    data-paging="true"
+                                    data-page-length="10"
+                                    data-length-change="false">
+                                <thead align='left'>
+                                <tr>
+                                    <th>Constraint Name</th>
+                                    <th>Constraint</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>chk_users_email_trimmed</td>
+                                    <td>((((email)::text &#61; TRIM(BOTH FROM email)) AND (email &lt;&gt; &#39;&#39;::citext)))</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
                             <i class="fa fa-code-fork"></i>
                             <h3 id="Relationships" class="box-title">Relationships</h3>
                             <div class="box-tools pull-right">
@@ -303,33 +362,35 @@
                                 <div class="tab-content no-padding">
                                     <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="agent_feedback.html" target="_top" title="agent_feedback" alt="" coords="771,5,1009,240">
-<area shape="rect" id="node2" href="chat_sessions.html" target="_top" title="chat_sessions" alt="" coords="416,116,633,263">
-<area shape="rect" id="node3" href="users.html" target="_top" title="users" alt="" coords="5,571,308,787">
-<area shape="rect" id="node4" href="site_feedback.html" target="_top" title="site_feedback" alt="" coords="416,280,633,456">
-<area shape="rect" id="node5" href="user_allowed_departments.html" target="_top" title="user_allowed_departments" alt="" coords="352,473,697,596">
-<area shape="rect" id="node6" href="user_allowed_vendors.html" target="_top" title="user_allowed_vendors" alt="" coords="741,596,1039,719">
-<area shape="rect" id="node7" href="vendors.html" target="_top" title="vendors" alt="" coords="402,649,647,913">
-<area shape="rect" id="node8" href="user_denied_vendors.html" target="_top" title="user_denied_vendors" alt="" coords="745,824,1035,947">
-<area shape="rect" id="node9" href="user_roles.html" target="_top" title="user_roles" alt="" coords="433,967,617,1089">
+<area shape="rect" id="node1" href="agent_feedback.html" target="_top" title="agent_feedback" alt="" coords="793,5,1030,240">
+<area shape="rect" id="node2" href="chat_sessions.html" target="_top" title="chat_sessions" alt="" coords="431,116,648,263">
+<area shape="rect" id="node3" href="users.html" target="_top" title="users" alt="" coords="5,607,323,852">
+<area shape="rect" id="node4" href="site_feedback.html" target="_top" title="site_feedback" alt="" coords="431,280,648,456">
+<area shape="rect" id="node5" href="user_allowed_departments.html" target="_top" title="user_allowed_departments" alt="" coords="367,473,712,596">
+<area shape="rect" id="node6" href="user_allowed_vendors.html" target="_top" title="user_allowed_vendors" alt="" coords="763,573,1060,696">
+<area shape="rect" id="node7" href="vendors.html" target="_top" title="vendors" alt="" coords="417,685,662,949">
+<area shape="rect" id="node8" href="user_contractor_access.html" target="_top" title="user_contractor_access" alt="" coords="756,713,1067,889">
+<area shape="rect" id="node9" href="user_denied_vendors.html" target="_top" title="user_denied_vendors" alt="" coords="767,935,1056,1057">
+<area shape="rect" id="node10" href="user_roles.html" target="_top" title="user_roles" alt="" coords="447,1039,631,1161">
 </map>
                                         <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/users.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="agent_feedback.html" target="_top" title="agent_feedback" alt="" coords="777,568,1014,656">
-<area shape="rect" id="node2" href="chat_sessions.html" target="_top" title="chat_sessions" alt="" coords="416,552,633,640">
-<area shape="rect" id="node3" href="users.html" target="_top" title="users" alt="" coords="5,411,308,627">
-<area shape="rect" id="node4" href="site_feedback.html" target="_top" title="site_feedback" alt="" coords="416,145,633,321">
-<area shape="rect" id="node5" href="user_allowed_departments.html" target="_top" title="user_allowed_departments" alt="" coords="352,5,697,128">
-<area shape="rect" id="node6" href="departments.html" target="_top" title="departments" alt="" coords="52,172,261,260">
-<area shape="rect" id="node7" href="user_allowed_vendors.html" target="_top" title="user_allowed_vendors" alt="" coords="747,147,1044,235">
-<area shape="rect" id="node8" href="vendors.html" target="_top" title="vendors" alt="" coords="444,375,605,463">
-<area shape="rect" id="node9" href="user_denied_vendors.html" target="_top" title="user_denied_vendors" alt="" coords="751,463,1040,551">
-<area shape="rect" id="node10" href="user_roles.html" target="_top" title="user_roles" alt="" coords="433,657,617,780">
-<area shape="rect" id="node11" href="roles.html" target="_top" title="roles" alt="" coords="91,689,223,777">
-<area shape="rect" id="node12" href="vendor_monthly_spend.html" target="_top" title="vendor_monthly_spend" alt="" coords="741,357,1049,445">
-<area shape="rect" id="node13" href="vendor_spend_detail.html" target="_top" title="vendor_spend_detail" alt="" coords="753,252,1037,340">
+<area shape="rect" id="node1" href="agent_feedback.html" target="_top" title="agent_feedback" alt="" coords="793,45,1030,133">
+<area shape="rect" id="node2" href="chat_sessions.html" target="_top" title="chat_sessions" alt="" coords="431,80,648,168">
+<area shape="rect" id="node3" href="users.html" target="_top" title="users" alt="" coords="5,380,323,625">
+<area shape="rect" id="node4" href="site_feedback.html" target="_top" title="site_feedback" alt="" coords="431,185,648,361">
+<area shape="rect" id="node5" href="user_allowed_departments.html" target="_top" title="user_allowed_departments" alt="" coords="367,608,712,731">
+<area shape="rect" id="node6" href="departments.html" target="_top" title="departments" alt="" coords="59,643,269,731">
+<area shape="rect" id="node7" href="user_allowed_vendors.html" target="_top" title="user_allowed_vendors" alt="" coords="763,283,1060,371">
+<area shape="rect" id="node8" href="vendors.html" target="_top" title="vendors" alt="" coords="459,467,620,555">
+<area shape="rect" id="node9" href="user_contractor_access.html" target="_top" title="user_contractor_access" alt="" coords="756,388,1067,476">
+<area shape="rect" id="node10" href="user_denied_vendors.html" target="_top" title="user_denied_vendors" alt="" coords="767,704,1056,792">
+<area shape="rect" id="node11" href="user_roles.html" target="_top" title="user_roles" alt="" coords="447,748,631,871">
+<area shape="rect" id="node12" href="roles.html" target="_top" title="roles" alt="" coords="98,780,230,868">
+<area shape="rect" id="node13" href="vendor_monthly_spend.html" target="_top" title="vendor_monthly_spend" alt="" coords="757,493,1065,581">
+<area shape="rect" id="node14" href="vendor_spend_detail.html" target="_top" title="vendor_spend_detail" alt="" coords="769,599,1053,687">
 </map>
                                         <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/users.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>

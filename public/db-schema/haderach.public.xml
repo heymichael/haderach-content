@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <database name="haderach" schema="public" type="PostgreSQL - 15.17">
+   <sequences>
+      <sequence increment="1" name="branding_id_seq" startValue="1"/>
+   </sequences>
    <tables>
-      <table name="agent_feedback" numRows="20" remarks="" schema="public" type="TABLE">
+      <table name="agent_feedback" numRows="31" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="1" name="created_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="2" name="modified_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
@@ -63,7 +66,7 @@
          </index>
       </table>
       <table name="branding" numRows="1" remarks="" schema="public" type="TABLE">
-         <column autoUpdated="false" defaultValue="nextval('branding_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="true" defaultValue="nextval('branding_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="logo_svg" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="'none'::lockup_mode" digits="0" id="2" name="show_lockup" nullable="false" remarks="" size="2147483647" type="lockup_mode" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="lockup_svg" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
@@ -71,8 +74,9 @@
          <index name="branding_pkey" unique="true">
             <column ascending="true" name="id"/>
          </index>
+         <checkConstraint constraint="((id = 1))" name="branding_id_check"/>
       </table>
-      <table name="chat_sessions" numRows="287" remarks="" schema="public" type="TABLE">
+      <table name="chat_sessions" numRows="3370" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <child column="chat_session_id" foreignKey="agent_feedback_chat_session_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="agent_feedback"/>
          </column>
@@ -160,7 +164,7 @@
             <column ascending="false" name="started_at"/>
          </index>
       </table>
-      <table name="sync_job_step" remarks="" schema="public" type="TABLE">
+      <table name="sync_job_step" numRows="53" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="job_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <parent column="id" foreignKey="sync_job_step_job_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="sync_job_log"/>
@@ -181,7 +185,7 @@
             <column ascending="true" name="job_id"/>
          </index>
       </table>
-      <table name="user_allowed_departments" remarks="" schema="public" type="TABLE">
+      <table name="user_allowed_departments" numRows="8" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <parent column="id" foreignKey="user_allowed_departments_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="users"/>
          </column>
@@ -194,8 +198,11 @@
             <column ascending="true" name="user_id"/>
             <column ascending="true" name="department_id"/>
          </index>
+         <index name="idx_user_allowed_departments_dept" unique="false">
+            <column ascending="true" name="department_id"/>
+         </index>
       </table>
-      <table name="user_allowed_vendors" remarks="" schema="public" type="TABLE">
+      <table name="user_allowed_vendors" numRows="4" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <parent column="id" foreignKey="user_allowed_vendors_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="users"/>
          </column>
@@ -208,8 +215,43 @@
             <column ascending="true" name="user_id"/>
             <column ascending="true" name="vendor_id"/>
          </index>
+         <index name="idx_user_allowed_vendors_vendor" unique="false">
+            <column ascending="true" name="vendor_id"/>
+         </index>
       </table>
-      <table name="user_denied_vendors" remarks="" schema="public" type="TABLE">
+      <table name="user_context" numRows="0" remarks="" schema="public" type="VIEW" viewSql=" SELECT u.id,&#10;    u.email,&#10;    u.first_name,&#10;    u.last_name,&#10;    COALESCE(role_data.role_names, '{}'::text[]) AS role_names,&#10;    COALESCE(dept_data.allowed_departments, '{}'::text[]) AS allowed_departments,&#10;    COALESCE(av_data.allowed_vendor_ids, '{}'::text[]) AS allowed_vendor_ids,&#10;    COALESCE(dv_data.denied_vendor_ids, '{}'::text[]) AS denied_vendor_ids,&#10;    COALESCE(av_data.allowed_vendors, '[]'::jsonb) AS allowed_vendors&#10;   FROM ((((users u&#10;     LEFT JOIN LATERAL ( SELECT array_agg(r.name ORDER BY r.name) AS role_names&#10;           FROM (user_roles ur&#10;             JOIN roles r ON ((r.id = ur.role_id)))&#10;          WHERE (ur.user_id = u.id)) role_data ON (true))&#10;     LEFT JOIN LATERAL ( SELECT array_agg(d.name ORDER BY d.name) AS allowed_departments&#10;           FROM (user_allowed_departments uad&#10;             JOIN departments d ON ((d.id = uad.department_id)))&#10;          WHERE (uad.user_id = u.id)) dept_data ON (true))&#10;     LEFT JOIN LATERAL ( SELECT array_agg((uav.vendor_id)::text ORDER BY (lower(COALESCE(v.name, (uav.vendor_id)::text)))) AS allowed_vendor_ids,&#10;            jsonb_agg(jsonb_build_object('id', (uav.vendor_id)::text, 'name', COALESCE(v.name, (uav.vendor_id)::text)) ORDER BY (lower(COALESCE(v.name, (uav.vendor_id)::text)))) AS allowed_vendors&#10;           FROM (user_allowed_vendors uav&#10;             LEFT JOIN vendors v ON ((v.id = uav.vendor_id)))&#10;          WHERE (uav.user_id = u.id)) av_data ON (true))&#10;     LEFT JOIN LATERAL ( SELECT array_agg((udv.vendor_id)::text ORDER BY (udv.vendor_id)::text) AS denied_vendor_ids&#10;           FROM user_denied_vendors udv&#10;          WHERE (udv.user_id = u.id)) dv_data ON (true));">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="true" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="email" nullable="true" remarks="" size="2147483647" type="citext" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="first_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="last_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="role_names" nullable="true" remarks="" size="2147483647" type="_text" typeCode="2003"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="allowed_departments" nullable="true" remarks="" size="2147483647" type="_text" typeCode="2003"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="allowed_vendor_ids" nullable="true" remarks="" size="2147483647" type="_text" typeCode="2003"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="denied_vendor_ids" nullable="true" remarks="" size="2147483647" type="_text" typeCode="2003"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="allowed_vendors" nullable="true" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+      </table>
+      <table name="user_contractor_access" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="user_contractor_access_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="vendor_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="user_contractor_access_vendor_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="vendors"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="granted_by" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
+            <parent column="id" foreignKey="user_contractor_access_granted_by_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="3" name="granted_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="user_id" sequenceNumberInPK="1"/>
+         <primaryKey column="vendor_id" sequenceNumberInPK="2"/>
+         <index name="user_contractor_access_pkey" unique="true">
+            <column ascending="true" name="user_id"/>
+            <column ascending="true" name="vendor_id"/>
+         </index>
+         <index name="idx_contractor_access_vendor" unique="false">
+            <column ascending="true" name="vendor_id"/>
+         </index>
+      </table>
+      <table name="user_denied_vendors" numRows="4" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <parent column="id" foreignKey="user_denied_vendors_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="users"/>
          </column>
@@ -222,8 +264,11 @@
             <column ascending="true" name="user_id"/>
             <column ascending="true" name="vendor_id"/>
          </index>
+         <index name="idx_user_denied_vendors_vendor" unique="false">
+            <column ascending="true" name="vendor_id"/>
+         </index>
       </table>
-      <table name="user_roles" remarks="" schema="public" type="TABLE">
+      <table name="user_roles" numRows="14" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <parent column="id" foreignKey="user_roles_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="users"/>
          </column>
@@ -236,23 +281,29 @@
             <column ascending="true" name="user_id"/>
             <column ascending="true" name="role_id"/>
          </index>
+         <index name="idx_user_roles_role" unique="false">
+            <column ascending="true" name="role_id"/>
+         </index>
       </table>
-      <table name="users" remarks="" schema="public" type="TABLE">
+      <table name="users" numRows="9" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <child column="user_id" foreignKey="agent_feedback_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="agent_feedback"/>
             <child column="user_id" foreignKey="chat_sessions_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="chat_sessions"/>
             <child column="user_id" foreignKey="site_feedback_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="site_feedback"/>
             <child column="user_id" foreignKey="user_allowed_departments_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_allowed_departments"/>
             <child column="user_id" foreignKey="user_allowed_vendors_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_allowed_vendors"/>
+            <child column="granted_by" foreignKey="user_contractor_access_granted_by_fkey" implied="false" onDeleteCascade="false" schema="public" table="user_contractor_access"/>
+            <child column="user_id" foreignKey="user_contractor_access_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_contractor_access"/>
             <child column="user_id" foreignKey="user_denied_vendors_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_denied_vendors"/>
             <child column="user_id" foreignKey="user_roles_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_roles"/>
             <child column="owner_id" foreignKey="vendors_owner_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendors"/>
             <child column="secondary_owner_id" foreignKey="vendors_secondary_owner_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendors"/>
          </column>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="email" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="email" nullable="false" remarks="" size="2147483647" type="citext" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="''::text" digits="0" id="2" name="first_name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="''::text" digits="0" id="3" name="last_name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="5" name="updated_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="users_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -260,8 +311,33 @@
          <index name="users_email_key" unique="true">
             <column ascending="true" name="email"/>
          </index>
+         <checkConstraint constraint="((((email)::text = TRIM(BOTH FROM email)) AND (email &lt;&gt; ''::citext)))" name="chk_users_email_trimmed"/>
       </table>
-      <table name="vendor_monthly_spend" numRows="1261" remarks="" schema="public" type="TABLE">
+      <table name="vendor_display_v" numRows="0" remarks="" schema="public" type="VIEW" viewSql=" SELECT v.name,&#10;    v.source_system,&#10;    v.source_system_id,&#10;    v.payment_method,&#10;    v.billing_frequency,&#10;    v.account_type,&#10;    v.track_1099,&#10;    v.purpose,&#10;    v.spend_type,&#10;    v.contract_start,&#10;    v.contract_end,&#10;    v.contract_months,&#10;    v.auto_renew,&#10;    v.renewal_rate,&#10;    v.renewal_notice,&#10;    v.termination_terms,&#10;    v.created_at,&#10;    v.modified_at,&#10;    v.synced_at,&#10;    d.name AS department,&#10;    (uo.email)::text AS owner,&#10;    (us.email)::text AS secondary_owner&#10;   FROM (((vendors v&#10;     LEFT JOIN departments d ON ((d.id = v.department_id)))&#10;     LEFT JOIN users uo ON ((uo.id = v.owner_id)))&#10;     LEFT JOIN users us ON ((us.id = v.secondary_owner_id)));">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="name" nullable="true" remarks="Vendor" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="source_system" nullable="true" remarks="Source system" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="source_system_id" nullable="true" remarks="Source system ID" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="payment_method" nullable="true" remarks="Payment method" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="billing_frequency" nullable="true" remarks="Billing frequency" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="account_type" nullable="true" remarks="Account type" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="track_1099" nullable="true" remarks="1099 tracked" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="purpose" nullable="true" remarks="Purpose" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="spend_type" nullable="true" remarks="Spend type" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="contract_start" nullable="true" remarks="Contract start" size="13" type="date" typeCode="91"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="contract_end" nullable="true" remarks="Contract end" size="13" type="date" typeCode="91"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="contract_months" nullable="true" remarks="Contract length (months)" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="auto_renew" nullable="true" remarks="Auto-renew" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="13" name="renewal_rate" nullable="true" remarks="Renewal rate" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="14" name="renewal_notice" nullable="true" remarks="Renewal notice (days)" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="15" name="termination_terms" nullable="true" remarks="Termination terms" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="16" name="created_at" nullable="true" remarks="Created" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="17" name="modified_at" nullable="true" remarks="Modified" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="18" name="synced_at" nullable="true" remarks="Last synced" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="19" name="department" nullable="true" remarks="Department" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="20" name="owner" nullable="true" remarks="Owner" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="21" name="secondary_owner" nullable="true" remarks="Secondary owner" size="2147483647" type="text" typeCode="12"/>
+      </table>
+      <table name="vendor_monthly_spend" numRows="1251" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="vendor_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <parent column="id" foreignKey="vendor_monthly_spend_vendor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendors"/>
@@ -282,7 +358,7 @@
             <column ascending="true" name="date"/>
          </index>
       </table>
-      <table name="vendor_spend_detail" numRows="83" remarks="" schema="public" type="TABLE">
+      <table name="vendor_spend_detail" numRows="483" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="vendor_id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <parent column="id" foreignKey="vendor_spend_detail_vendor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendors"/>
@@ -314,16 +390,17 @@
             <column ascending="true" name="date"/>
          </index>
       </table>
-      <table name="vendors" numRows="936" remarks="" schema="public" type="TABLE">
+      <table name="vendors" numRows="956" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" defaultValue="gen_random_uuid()" digits="0" id="0" name="id" nullable="false" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <child column="vendor_id" foreignKey="user_allowed_vendors_vendor_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_allowed_vendors"/>
+            <child column="vendor_id" foreignKey="user_contractor_access_vendor_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_contractor_access"/>
             <child column="vendor_id" foreignKey="user_denied_vendors_vendor_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_denied_vendors"/>
             <child column="vendor_id" foreignKey="vendor_monthly_spend_vendor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendor_monthly_spend"/>
             <child column="vendor_id" foreignKey="vendor_spend_detail_vendor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="vendor_spend_detail"/>
          </column>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="source_system" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="source_system_id" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="name" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="source_system" nullable="false" remarks="Source system" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="source_system_id" nullable="false" remarks="Source system ID" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="name" nullable="false" remarks="Vendor" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="department_id" nullable="true" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <parent column="id" foreignKey="vendors_department_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="departments"/>
          </column>
@@ -333,24 +410,25 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="secondary_owner_id" nullable="true" remarks="" size="2147483647" type="uuid" typeCode="1111">
             <parent column="id" foreignKey="vendors_secondary_owner_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
          </column>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="payment_method" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="billing_frequency" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="account_type" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="false" digits="0" id="10" name="track_1099" nullable="true" remarks="" size="1" type="bool" typeCode="-7"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="purpose" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="spend_type" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="payment_method" nullable="true" remarks="Payment method" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="billing_frequency" nullable="true" remarks="Billing frequency" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="account_type" nullable="true" remarks="Account type" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="10" name="track_1099" nullable="true" remarks="1099 tracked" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="purpose" nullable="true" remarks="Purpose" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="spend_type" nullable="true" remarks="Spend type" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="13" name="aliases" nullable="true" remarks="" size="2147483647" type="_text" typeCode="2003"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="14" name="contract_start" nullable="true" remarks="" size="13" type="date" typeCode="91"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="15" name="contract_end" nullable="true" remarks="" size="13" type="date" typeCode="91"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="16" name="contract_months" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="17" name="auto_renew" nullable="true" remarks="" size="1" type="bool" typeCode="-7"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="18" name="renewal_rate" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="19" name="renewal_notice" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="20" name="termination_terms" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="now()" digits="6" id="21" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
-         <column autoUpdated="false" defaultValue="now()" digits="6" id="22" name="modified_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
-         <column autoUpdated="false" defaultValue="null" digits="6" id="23" name="synced_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="14" name="contract_start" nullable="true" remarks="Contract start" size="13" type="date" typeCode="91"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="15" name="contract_end" nullable="true" remarks="Contract end" size="13" type="date" typeCode="91"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="16" name="contract_months" nullable="true" remarks="Contract length (months)" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="17" name="auto_renew" nullable="true" remarks="Auto-renew" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="18" name="renewal_rate" nullable="true" remarks="Renewal rate" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="19" name="renewal_notice" nullable="true" remarks="Renewal notice (days)" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="20" name="termination_terms" nullable="true" remarks="Termination terms" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="21" name="created_at" nullable="true" remarks="Created" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="22" name="modified_at" nullable="true" remarks="Modified" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="23" name="synced_at" nullable="true" remarks="Last synced" size="35" type="timestamptz" typeCode="93"/>
          <column autoUpdated="false" defaultValue="false" digits="0" id="24" name="hidden_from_agent" nullable="false" remarks="" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="true" digits="0" id="25" name="is_contractor" nullable="false" remarks="" size="1" type="bool" typeCode="-7"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="vendors_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -366,4 +444,653 @@
          </index>
       </table>
    </tables>
+   <routines>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext(boolean)" returnType="citext" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="boolean"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext(character)" returnType="citext" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="character"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext(inet)" returnType="citext" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="inet"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_cmp(citext, citext)" returnType="integer" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_eq(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_ge(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_gt(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_hash(citext)" returnType="integer" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_hash_extended(citext, bigint)" returnType="bigint" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="bigint"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_larger(citext, citext)" returnType="citext" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_le(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_lt(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_ne(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_pattern_cmp(citext, citext)" returnType="integer" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_pattern_ge(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_pattern_gt(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_pattern_le(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_pattern_lt(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citext_smaller(citext, citext)" returnType="citext" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citextin(cstring)" returnType="citext" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="cstring"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="citextout(citext)" returnType="cstring" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="citextrecv(internal)" returnType="citext" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="citextsend(citext)" returnType="bytea" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gin_extract_query_trgm(text, internal, smallint, internal, internal, internal, internal)" returnType="internal" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="smallint"/>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gin_extract_value_trgm(text, internal)" returnType="internal" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gin_trgm_consistent(internal, smallint, text, integer, internal, internal, internal, internal)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="smallint"/>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="integer"/>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gin_trgm_triconsistent(internal, smallint, text, integer, internal, internal, internal)" returnType="&quot;char&quot;" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="smallint"/>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="integer"/>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gtrgm_compress(internal)" returnType="internal" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gtrgm_consistent(internal, text, smallint, oid, internal)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="smallint"/>
+            <parameter mode="IN" type="oid"/>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gtrgm_decompress(internal)" returnType="internal" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gtrgm_distance(internal, text, smallint, oid, internal)" returnType="double precision" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="smallint"/>
+            <parameter mode="IN" type="oid"/>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gtrgm_in(cstring)" returnType="gtrgm" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="cstring"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gtrgm_options(internal)" returnType="void" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gtrgm_out(gtrgm)" returnType="cstring" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="gtrgm"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gtrgm_penalty(internal, internal, internal)" returnType="internal" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gtrgm_picksplit(internal, internal)" returnType="internal" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gtrgm_same(gtrgm, gtrgm, internal)" returnType="internal" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="gtrgm"/>
+            <parameter mode="IN" type="gtrgm"/>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="gtrgm_union(internal, internal)" returnType="gtrgm" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="internal"/>
+            <parameter mode="IN" type="internal"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="max(citext)" returnType="citext" securityType="INVOKER" type="AGGREGATE">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="min(citext)" returnType="citext" securityType="INVOKER" type="AGGREGATE">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="regexp_match(citext, citext)" returnType="text[]" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="regexp_match(citext, citext, text)" returnType="text[]" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="regexp_matches(citext, citext)" returnType="SETOF text[]" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="regexp_matches(citext, citext, text)" returnType="SETOF text[]" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="regexp_replace(citext, citext, text)" returnType="text" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="regexp_replace(citext, citext, text, text)" returnType="text" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="regexp_split_to_array(citext, citext)" returnType="text[]" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="regexp_split_to_array(citext, citext, text)" returnType="text[]" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="regexp_split_to_table(citext, citext)" returnType="SETOF text" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="regexp_split_to_table(citext, citext, text)" returnType="SETOF text" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="replace(citext, citext, citext)" returnType="text" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="set_limit(real)" returnType="real" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="real"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="set_updated_at()" returnType="trigger" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="plpgsql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="show_limit()" returnType="real" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="show_trgm(text)" returnType="text[]" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="similarity(text, text)" returnType="real" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="similarity_dist(text, text)" returnType="real" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="similarity_op(text, text)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="split_part(citext, citext, integer)" returnType="text" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="integer"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="strict_word_similarity(text, text)" returnType="real" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="strict_word_similarity_commutator_op(text, text)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="strict_word_similarity_dist_commutator_op(text, text)" returnType="real" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="strict_word_similarity_dist_op(text, text)" returnType="real" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="strict_word_similarity_op(text, text)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="strpos(citext, citext)" returnType="integer" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="texticlike(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="texticlike(citext, text)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="texticnlike(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="texticnlike(citext, text)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="texticregexeq(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="texticregexeq(citext, text)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="texticregexne(citext, citext)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="texticregexne(citext, text)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="internal"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="translate(citext, citext, text)" returnType="text" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="sql"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="citext"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="word_similarity(text, text)" returnType="real" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="word_similarity_commutator_op(text, text)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="word_similarity_dist_commutator_op(text, text)" returnType="real" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="true" name="word_similarity_dist_op(text, text)" returnType="real" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="word_similarity_op(text, text)" returnType="boolean" securityType="INVOKER" type="FUNCTION">
+         <comment/>
+         <definition language="c"><![CDATA[Redacted, use --include-routine-definition]]></definition>
+         <parameters>
+            <parameter mode="IN" type="text"/>
+            <parameter mode="IN" type="text"/>
+         </parameters>
+      </routine>
+   </routines>
 </database>

@@ -1,4 +1,5 @@
 branding
+user_contractor_access
 user_roles
 user_denied_vendors
 user_allowed_vendors
