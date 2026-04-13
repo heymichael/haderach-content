@@ -491,6 +491,13 @@
 <!-- ═══════════════════════════════════════════════════════════ SIDEBAR -->
 <nav class="sidebar">
   <details open>
+    <summary onclick="document.getElementById('whats-new-v2026-15').scrollIntoView({behavior:'smooth'})">What's New</summary>
+    <div class="nav-links">
+      <a href="#whats-new-v2026-15">v2026.15 Highlights</a>
+    </div>
+  </details>
+
+  <details open>
     <summary onclick="document.getElementById('getting-started').scrollIntoView({behavior:'smooth'})">Getting Started</summary>
     <div class="nav-links">
       <a href="#getting-started">Signing In</a>
@@ -546,6 +553,27 @@
 </header>
 
 <div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════ WHAT'S NEW -->
+<section id="whats-new-v2026-15" style="padding-top:3rem">
+  <span class="section-label green">Updated in v2026.15</span>
+  <h2>What Changed This Week</h2>
+  <p class="section-intro">
+    This release focuses on a faster day-to-day experience, cleaner sign-in flow, more reliable spend visibility, and stronger release/documentation operations.
+  </p>
+
+  <ul class="feature-list">
+    <li><div class="icon">&#9889;</div><div><strong>Performance improvements</strong> &mdash; load and transition behavior has been tightened so the app feels more responsive during normal navigation.</div></li>
+    <li><div class="icon">&#128274;</div><div><strong>Simplified sign-in experience</strong> &mdash; redundant sign-in prompts were removed to make auth flow smoother.</div></li>
+    <li><div class="icon">&#128202;</div><div><strong>Spend aggregate quality</strong> &mdash; hidden vendors are now excluded from aggregate spend calculations to keep totals aligned with visibility rules.</div></li>
+    <li><div class="icon">&#128736;</div><div><strong>Release/documentation reliability</strong> &mdash; release-note and schema documentation workflows are now more repeatable.</div></li>
+    <li><div class="icon">&#128172;</div><div><strong>Feedback workflow support</strong> &mdash; feedback review infrastructure now routes user signals into iteration work more consistently.</div></li>
+  </ul>
+
+  <div class="info-box success">
+    For full details, see <a href="/release-notes.html" style="color:var(--accent);font-weight:600">Release Notes v2026.15</a>.
+  </div>
+</section>
 
 <!-- ═══════════════════════════════════════════════════════════ GETTING STARTED -->
 <section id="getting-started" style="padding-top:3rem">

@@ -255,6 +255,34 @@
 <!-- ═══════════════════════════════════════════════════════════ SIDEBAR -->
 <nav class="sidebar">
   <details open>
+    <summary onclick="document.getElementById('v2026-15').scrollIntoView({behavior:'smooth'})">v2026.15 &mdash; Apr 12</summary>
+    <div class="nav-links">
+      <details open>
+        <summary onclick="document.getElementById('v2026-15-features').scrollIntoView({behavior:'smooth'})">New Features</summary>
+        <div class="nav-links">
+          <a href="#v2026-15-home-blog">Homepage &amp; Blog Refresh</a>
+          <a href="#v2026-15-table-controls">Chat Table Controls</a>
+          <a href="#v2026-15-feedback-review">Feedback Review Workflow</a>
+        </div>
+      </details>
+      <details open>
+        <summary onclick="document.getElementById('v2026-15-improvements').scrollIntoView({behavior:'smooth'})">Improvements</summary>
+        <div class="nav-links">
+          <a href="#v2026-15-performance">Faster Load &amp; Smoother Switching</a>
+          <a href="#v2026-15-signin">Simplified Sign-In Experience</a>
+          <a href="#v2026-15-spend-quality">Improved Spend Data Quality</a>
+          <a href="#v2026-15-docs-release">Stronger Docs &amp; Release Operations</a>
+        </div>
+      </details>
+      <details open>
+        <summary onclick="document.getElementById('v2026-15-bugs').scrollIntoView({behavior:'smooth'})">Bug Fixes</summary>
+        <div class="nav-links">
+          <a href="#v2026-15-gcp-january">Partial January GCP Spend</a>
+        </div>
+      </details>
+    </div>
+  </details>
+  <details>
     <summary onclick="document.getElementById('v1-1').scrollIntoView({behavior:'smooth'})">v1.1 &mdash; Apr 5</summary>
     <div class="nav-links">
       <details open>
@@ -289,6 +317,99 @@
 </header>
 
 <div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════ v2026.15 INTRO -->
+<section id="v2026-15" style="padding-top:3rem">
+  <div class="release-header">
+    <span class="release-version">v2026.15</span>
+    <span class="release-date">April 12, 2026</span>
+  </div>
+  <p class="section-intro">
+    This release improves speed and sign-in flow, tightens spend data quality, and strengthens docs and release operations. The <a href="/user-guide" style="color:var(--accent)">User Guide</a> has been updated to reflect these changes.
+  </p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ NEW FEATURES -->
+<div class="group-header" id="v2026-15-features">
+  <h2>New Features</h2>
+  <p>New capabilities added in this release.</p>
+</div>
+
+<section id="v2026-15-home-blog">
+  <h2>Homepage &amp; Blog Refresh</h2>
+  <p class="section-intro">
+    The public-facing site now does a better job explaining what the platform does and where the product is heading.
+  </p>
+  <p>We updated the homepage and blog experience to make product updates easier to follow and easier to share. This gives teams and stakeholders one clear place to track progress over time.</p>
+</section>
+
+<section id="v2026-15-table-controls">
+  <h2>Chat-Driven Table Controls</h2>
+  <p class="section-intro">
+    Table interactions in chat are more flexible, so it is easier to view and work with the exact data slice you need.
+  </p>
+  <p>When you are exploring spend and vendor data, table output now behaves more predictably and is easier to adjust while staying in the flow of your conversation.</p>
+</section>
+
+<section id="v2026-15-feedback-review">
+  <h2>Feedback Review Workflow Support</h2>
+  <p class="section-intro">
+    Feedback processing now has a more structured workflow, helping product updates move from user signal to action faster.
+  </p>
+  <p>This improves how quickly recurring issues and requests are identified and routed into implementation work.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ IMPROVEMENTS -->
+<div class="group-header" id="v2026-15-improvements">
+  <h2>Improvements</h2>
+  <p>Enhancements to existing functionality.</p>
+</div>
+
+<section id="v2026-15-performance">
+  <h2>Faster Load Times &amp; Smoother App Switching</h2>
+  <p class="section-intro">
+    The platform feels quicker to open and more seamless as you move between areas.
+  </p>
+  <p>We shipped a set of performance-focused changes that reduce visible loading friction and make transitions between app surfaces feel more stable.</p>
+</section>
+
+<section id="v2026-15-signin">
+  <h2>Simplified Sign-In Experience</h2>
+  <p class="section-intro">
+    Sign-in prompts are cleaner and less repetitive, making authentication feel more direct.
+  </p>
+  <p>We removed redundant return-to-sign-in behaviors so users can move through auth and back to work with fewer interruptions.</p>
+</section>
+
+<section id="v2026-15-spend-quality">
+  <h2>Improved Spend Data Quality in Aggregates</h2>
+  <p class="section-intro">
+    Spend totals now better reflect intended visibility rules.
+  </p>
+  <p>Hidden vendors are now excluded from spend aggregates, reducing confusion and keeping rolled-up totals aligned with what users should actually see.</p>
+</section>
+
+<section id="v2026-15-docs-release">
+  <h2>Stronger Documentation &amp; Release Operations</h2>
+  <p class="section-intro">
+    Weekly releases are now easier to maintain and document consistently.
+  </p>
+  <p>We improved testing/review support and made schema and release-documentation workflows more repeatable, reducing manual cleanup during release prep.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ BUG FIXES -->
+<div class="group-header" id="v2026-15-bugs">
+  <h2>Bug Fixes</h2>
+  <p>Issues resolved in this release.</p>
+</div>
+
+<section id="v2026-15-gcp-january">
+  <h2>Fixed Partial January GCP Spend Reporting</h2>
+  <p class="section-intro">
+    Corrected an issue that caused incomplete January GCP spend representation.
+  </p>
+  <p>Spend reporting now reflects the full expected January data for GCP in the affected path.</p>
+</section>
 
 <!-- ═══════════════════════════════════════════════════════════ v1.1 INTRO -->
 <section id="v1-1" style="padding-top:3rem">
