@@ -6,6 +6,11 @@
 [docs.haderach.ai](https://docs.haderach.ai). It does not contain application
 logic — the serving layer (`content-api`) lives in `haderach-platform`.
 
+## Cursor Rules
+
+Workspace-level Cursor rule coverage and `alwaysApply` settings are tracked in
+`../haderach-platform/docs/cursor-rule-matrix.md`.
+
 ## Repository Tree
 
 ```text

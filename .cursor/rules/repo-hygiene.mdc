@@ -1,0 +1,25 @@
+---
+description: Content repo boundaries and documentation-first guardrails
+alwaysApply: true
+---
+
+# Content Repo Boundary Rule
+
+This repository owns the static documentation content served at
+`docs.haderach.ai`. It does not own the serving infrastructure or deployment
+orchestration.
+
+- Keep strict separation of concerns:
+  - This repo owns static content files under `public/`, content structure, and
+    documentation snapshots.
+  - `haderach-platform` owns `content-api`, the GCS bucket, Terraform, and the
+    deploy workflow.
+- Do not add app business logic, Cloud Run service code, or ad hoc deployment
+  scripts to this repository.
+- Prefer explicit docs and simple content structure over heavy tooling.
+- Use or update docs when behavior/contracts change:
+  - `README.md`
+  - `docs/architecture.md`
+- Keep new structure minimal and production-minded.
+- Production changes ship through the normal PR flow plus the platform-owned
+  content deploy workflow; do not bypass it with manual GCP commands.
