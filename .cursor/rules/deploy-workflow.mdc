@@ -1,7 +1,7 @@
 ---
 description: Content deployment workflow — always use PRs, never deploy directly
 globs:
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Content Deployment
